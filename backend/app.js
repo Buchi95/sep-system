@@ -7,6 +7,8 @@ import morgan from 'morgan'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 // route for user and auth
 import userRoutes from './routes/userRoutes.js'
+// route for new event request
+import newEventRequestRoutes from './routes/newEventRequestRoutes.js'
 
 const app = express()
 
@@ -27,6 +29,7 @@ app.get('/', (_req, res) => {
 })
 
 app.use('/api/users', userRoutes)
+app.use('/api/event', newEventRequestRoutes)
 
 // adding errormiddlewares
 app.use(notFound)
