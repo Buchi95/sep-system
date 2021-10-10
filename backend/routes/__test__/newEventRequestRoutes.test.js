@@ -24,9 +24,78 @@ describe('New Event Request', () => {
     }
 
     const response = await request(app)
-      .post('/api/event/request/create')
+      .post('/api/event/request')
       .set('Authorization', 'Bearer ' + token)
       .send(eventRequest)
       .expect(201)
+  })
+
+  it('returns all requests', async () => {
+    const token = await global.getAuthToken()
+
+    await request(app)
+      .get('/api/event/request')
+      .set('Authorization', 'Bearer ' + token)
+      .send()
+      .expect(200)
+  })
+
+  it('returns specific event request by event status', async () => {
+    const token = await global.getAuthToken()
+
+    const eventRequest = {
+      clientName: 'clientName',
+      clientContact: 'clientContact',
+      eventType: 1,
+      from: Date.now(),
+      to: Date.now(),
+      numOfAttendees: 20,
+      expectedBudget: 1000,
+      preferences: [1, 2, 3],
+      eventRequestStatus: 1,
+    }
+
+    const response = await request(app)
+      .post('/api/event/request')
+      .set('Authorization', 'Bearer ' + token)
+      .send(eventRequest)
+      .expect(201)
+
+    await request(app)
+      .get(`/api/event/request/${response.body.eventRequestStatus}`)
+      .set('Authorization', 'Bearer ' + token)
+      .send()
+      .expect(200)
+  })
+
+  it('updates specific event request status', async () => {
+    const token = await global.getAuthToken()
+
+    const eventRequest = {
+      clientName: 'clientName',
+      clientContact: 'clientContact',
+      eventType: 1,
+      from: Date.now(),
+      to: Date.now(),
+      numOfAttendees: 20,
+      expectedBudget: 1000,
+      preferences: [1, 2, 3],
+      eventRequestStatus: 1,
+    }
+
+    const response = await request(app)
+      .post('/api/event/request')
+      .set('Authorization', 'Bearer ' + token)
+      .send(eventRequest)
+      .expect(201)
+
+    await request(app)
+      .put(`/api/event/request`)
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        id: response.body._id,
+        eventRequestStatus: 2,
+      })
+      .expect(204)
   })
 })

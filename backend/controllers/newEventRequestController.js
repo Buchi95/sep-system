@@ -6,7 +6,7 @@ import NewRequest from '../models/newRequestModel.js'
 
 /*
  *   @desc   Create a new event request
- *   @route  POST /api/event/request/create
+ *   @route  POST /api/event/request
  *   @access Private
  */
 const createNewEventRequest = asyncHandler(async (req, res) => {
@@ -96,4 +96,62 @@ const createNewEventRequest = asyncHandler(async (req, res) => {
   }
 })
 
-export { createNewEventRequest }
+/*
+ *   @desc   Get an event on the basis of status
+ *   @route  GET /api/event/request/:eventRequestStatus
+ *   @access Private
+ */
+const getEventRequest = asyncHandler(async (req, res) => {
+  const eventRequest = await NewRequest.find({
+    eventRequestStatus: req.params.eventRequestStatus,
+  })
+
+  if (eventRequest) {
+    res.status(200).json(eventRequest)
+  } else {
+    res.status(404)
+    throw new Error('Event request not found')
+  }
+})
+
+/*
+ *   @desc   Get all event requests for senior customer service
+ *   @route  GET /api/event/request/
+ *   @access Private
+ */
+const getAllEventRequests = asyncHandler(async (_req, res) => {
+  const requests = await NewRequest.find({})
+
+  res.status(200).json(requests)
+})
+
+/*
+ *   @desc   Update Event request status
+ *   @route  PUT /api/event/request/
+ *   @access Private
+ */
+const updateEventRequestStatus = asyncHandler(async (req, res) => {
+  const { id, eventRequestStatus } = req.body
+
+  const request = await NewRequest.findById(id)
+
+  if (request) {
+    if (eventRequestStatus) {
+      request.eventRequestStatus = eventRequestStatus
+    }
+
+    const updatedRequest = await request.save()
+
+    res.status(204).json(updatedRequest) // updated 204
+  } else {
+    res.status(404)
+    throw new Error('Event request not found')
+  }
+})
+
+export {
+  createNewEventRequest,
+  getEventRequest,
+  getAllEventRequests,
+  updateEventRequestStatus,
+}
