@@ -9,15 +9,18 @@ const HomeScreen = ({ history }) => {
 
   useEffect(() => {
     if (!userInfo) {
+      history.push('/login')
     }
   }, [history, userInfo])
 
   return (
     <>
       <h1>Home</h1>
-      <Link className='btn btn-dark my-3' to='/event/request/create'>
-        Create New Event Request
-      </Link>
+      {userInfo && userInfo.role === 'Customer_Service' && (
+        <Link className='btn btn-dark my-3' to='/event/request/create'>
+          Create New Event Request
+        </Link>
+      )}
     </>
   )
 }

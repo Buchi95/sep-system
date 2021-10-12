@@ -8,17 +8,25 @@ import {
   userDetailsReducer,
 } from './redux/reducers/userReducers'
 
+import { createEventRequestReducer } from './redux/reducers/eventFlowReducers'
+
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,
+  createEventRequest: createEventRequestReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null
 
+const eventRequestInfoFromStorage = localStorage.getItem('eventRequestInfo')
+  ? JSON.parse(localStorage.getItem('eventRequestInfo'))
+  : null
+
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
+  createEventRequest: { eventRequestInfo: eventRequestInfoFromStorage },
 }
 
 const middleware = [thunk]

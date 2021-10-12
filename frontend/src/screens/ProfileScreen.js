@@ -57,7 +57,7 @@ const ProfileScreen = ({ history }) => {
           type='submit'
           variant='primary'
         >
-          {user && user.department && user.department.replace('_', ' ')}
+          {user && user.department && dpt.replaceAll('_', ' ')}
         </Button>
         <Form>
           <Form.Group controlId='name'>
@@ -87,7 +87,7 @@ const ProfileScreen = ({ history }) => {
             <Form.Control
               type='role'
               placeholder='role'
-              value={role && role.replace('_', ' ')}
+              value={role && role.replaceAll('_', ' ')}
               disabled
               //onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
