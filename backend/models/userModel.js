@@ -1,13 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 
-const Roles = Object.freeze({
-  ADMINISTRATION_MANAGER: 'Administration_Manager',
-  SENIOR_CUSTOMER_SERVICE_OFFICER: 'Senior_Customer_Service_Officer',
-  CUSTOMER_SERVICE_OFFICER: 'Customer_Service_Officer',
-  FINANCIAL_MANAGER: 'Financial_Manager',
-})
-
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -25,7 +18,10 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: Object.values(Roles),
+      required: true,
+    },
+    department: {
+      type: String,
       required: true,
     },
   },
@@ -33,10 +29,6 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 )
-
-Object.assign(userSchema.statics, {
-  Roles,
-})
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password)

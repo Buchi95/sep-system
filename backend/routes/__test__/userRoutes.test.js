@@ -19,6 +19,7 @@ describe('User Registration', () => {
         email: 'test@test.com',
         password: 'password',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(201)
       .expect('Content-Type', /json/)
@@ -32,6 +33,7 @@ describe('User Registration', () => {
         email: 'testtest',
         password: 'password',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(400)
   })
@@ -44,6 +46,7 @@ describe('User Registration', () => {
         email: 'testtest',
         password: 'pa',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(400)
   })
@@ -55,6 +58,7 @@ describe('User Registration', () => {
         name: 'name',
         email: 'test@test.com',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(400)
 
@@ -64,6 +68,7 @@ describe('User Registration', () => {
         name: 'name',
         password: 'password',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(400)
   })
@@ -76,6 +81,7 @@ describe('User Registration', () => {
         email: 'test@test.com',
         password: 'password',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(201)
 
@@ -86,6 +92,7 @@ describe('User Registration', () => {
         email: 'test@test.com',
         password: 'password',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(400)
   })
@@ -98,6 +105,7 @@ describe('User Registration', () => {
         email: 'test@test.com',
         password: 'password',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(201)
 
@@ -126,6 +134,7 @@ describe('User Login', () => {
         email: 'test@test.com',
         password: 'password',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(201)
 
@@ -146,6 +155,7 @@ describe('User Login', () => {
         email: 'test@test.com',
         password: 'password',
         role: 'Administration_Manager',
+        department: 'Administration_Department',
       })
       .expect(201)
 

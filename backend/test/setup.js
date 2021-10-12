@@ -36,6 +36,7 @@ global.getAuthToken = async () => {
   const email = 'test@test.com'
   const password = 'password'
   const role = 'Administration_Manager'
+  const department = 'Administration_Department'
 
   const response = await request(app)
     .post('/api/users/signup')
@@ -44,6 +45,7 @@ global.getAuthToken = async () => {
       email,
       password,
       role,
+      department,
     })
     .expect(201)
 
