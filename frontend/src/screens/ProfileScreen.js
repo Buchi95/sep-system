@@ -10,6 +10,8 @@ import { getUserDetails } from '../redux/actions/userActions'
 const ProfileScreen = ({ history }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [role, setRole] = useState('')
+  const [dpt, setDpt] = useState('')
   const [message, setMessage] = useState(null)
 
   const dispatch = useDispatch()
@@ -29,6 +31,8 @@ const ProfileScreen = ({ history }) => {
       } else {
         setName(user.name)
         setEmail(user.email)
+        setRole(user.role)
+        setDpt(user.department)
       }
     }
   }, [dispatch, history, userInfo, user])
@@ -38,6 +42,8 @@ const ProfileScreen = ({ history }) => {
     setMessage('Update Profile Functionality will be added for later realease')
   }
 
+  // onSubmit={submitHandler}
+
   return (
     <Row>
       <Col md={3}>
@@ -45,14 +51,23 @@ const ProfileScreen = ({ history }) => {
         {message && <Message variant='danger'>{message}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
         {loading && <Loader />}
-        <Form onSubmit={submitHandler}>
+        <Button
+          disabled
+          style={{ marginTop: 20, marginBottom: 20 }}
+          type='submit'
+          variant='primary'
+        >
+          {user && user.department && user.department.replace('_', ' ')}
+        </Button>
+        <Form>
           <Form.Group controlId='name'>
             <Form.Label>Name</Form.Label>
             <Form.Control
               type='name'
-              placeholder='Enter name'
+              placeholder='name'
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              disabled
+              //onChange={(e) => setName(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
@@ -60,15 +75,23 @@ const ProfileScreen = ({ history }) => {
             <Form.Label>Email Address</Form.Label>
             <Form.Control
               type='email'
-              placeholder='Enter email'
+              placeholder='email'
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              disabled
+              //onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
-          <Button style={{ marginTop: 20 }} type='submit' variant='primary'>
-            Update
-          </Button>
+          <Form.Group style={{ marginTop: 20 }} controlId='role'>
+            <Form.Label>Role</Form.Label>
+            <Form.Control
+              type='role'
+              placeholder='role'
+              value={role && role.replace('_', ' ')}
+              disabled
+              //onChange={(e) => setEmail(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
         </Form>
       </Col>
     </Row>
