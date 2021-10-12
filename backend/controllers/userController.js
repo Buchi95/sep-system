@@ -28,6 +28,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      department: user.department,
       token: generateToken(user._id),
     })
   } else {
@@ -47,7 +48,7 @@ const registerUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ errors: errors.array() })
   }
 
-  const { name, email, password, role } = req.body
+  const { name, email, password, role, department } = req.body
 
   const userExists = await User.findOne({ email })
 
@@ -61,6 +62,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     role,
+    department,
   })
 
   if (user) {
@@ -69,6 +71,7 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      department: user.department,
       token: generateToken(user._id),
     })
   } else {
@@ -91,6 +94,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      department: user.department,
     })
   } else {
     res.status(404)

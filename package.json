@@ -9,7 +9,9 @@
     "server": "nodemon backend/server",
     "client": "yarn --cwd frontend start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "jest --watchAll --no-cache"
+    "test": "jest --watchAll --no-cache",
+    "data:import": "node backend/scripts/user-seeder",
+    "data:destroy": "node backend/scripts/user-seeder -d"
   },
   "jest": {
     "testEnvironment": "node",
