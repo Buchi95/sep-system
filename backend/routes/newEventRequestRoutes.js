@@ -29,7 +29,6 @@ router
       body('expectedBudget')
         .notEmpty()
         .withMessage('Expected budget must be valid'),
-      body('preferences').notEmpty().withMessage('Preferences must be valid'),
       body('eventRequestStatus')
         .notEmpty()
         .withMessage('Event Request Status must be valid'),

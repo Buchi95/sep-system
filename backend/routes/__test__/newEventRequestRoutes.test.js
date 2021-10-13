@@ -9,18 +9,19 @@ import { app } from '../../app.js'
 // create new event request
 describe('New Event Request', () => {
   it('creates a new event request with success 201', async () => {
-    const token = await global.getAuthToken()
+    const { token, employee } = await global.getAuthToken()
 
     const eventRequest = {
       clientName: 'clientName',
       clientContact: 'clientContact',
-      eventType: 1,
+      eventType: 'CELEBRATION',
       from: Date.now(),
       to: Date.now(),
       numOfAttendees: 20,
       expectedBudget: 1000,
-      preferences: [1, 2, 3],
+      preferences: ['DECORATIONS', 'PARTIES'],
       eventRequestStatus: 1,
+      employee,
     }
 
     const response = await request(app)
@@ -31,7 +32,7 @@ describe('New Event Request', () => {
   })
 
   it('returns all requests', async () => {
-    const token = await global.getAuthToken()
+    const { token, employee } = await global.getAuthToken()
 
     await request(app)
       .get('/api/event/request')
@@ -41,18 +42,19 @@ describe('New Event Request', () => {
   })
 
   it('returns specific event request by event status', async () => {
-    const token = await global.getAuthToken()
+    const { token, employee } = await global.getAuthToken()
 
     const eventRequest = {
       clientName: 'clientName',
       clientContact: 'clientContact',
-      eventType: 1,
+      eventType: 'CELEBRATION',
       from: Date.now(),
       to: Date.now(),
       numOfAttendees: 20,
       expectedBudget: 1000,
-      preferences: [1, 2, 3],
+      preferences: ['DECORATIONS', 'PARTIES'],
       eventRequestStatus: 1,
+      employee,
     }
 
     const response = await request(app)
@@ -69,18 +71,19 @@ describe('New Event Request', () => {
   })
 
   it('updates specific event request status', async () => {
-    const token = await global.getAuthToken()
+    const { token, employee } = await global.getAuthToken()
 
     const eventRequest = {
       clientName: 'clientName',
       clientContact: 'clientContact',
-      eventType: 1,
+      eventType: 'CELEBRATION',
       from: Date.now(),
       to: Date.now(),
       numOfAttendees: 20,
       expectedBudget: 1000,
-      preferences: [1, 2, 3],
+      preferences: ['DECORATIONS', 'PARTIES'],
       eventRequestStatus: 1,
+      employee,
     }
 
     const response = await request(app)

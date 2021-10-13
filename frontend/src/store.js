@@ -8,12 +8,21 @@ import {
   userDetailsReducer,
 } from './redux/reducers/userReducers'
 
-import { createEventRequestReducer } from './redux/reducers/eventFlowReducers'
+// event reducers
+import {
+  createEventRequestReducer,
+  getEventRequestStatusReducer,
+} from './redux/reducers/eventFlowReducers'
+
+// client reducer
+import { getClientReducer } from './redux/reducers/clientReducers'
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,
   createEventRequest: createEventRequestReducer,
+  getEventReqStatus: getEventRequestStatusReducer,
+  getClient: getClientReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -27,6 +36,8 @@ const eventRequestInfoFromStorage = localStorage.getItem('eventRequestInfo')
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
   createEventRequest: { eventRequestInfo: eventRequestInfoFromStorage },
+  getEventReqStatus: { eventRequestInfoByStatus: [] },
+  getClient: { clientInfo: {} },
 }
 
 const middleware = [thunk]

@@ -9,7 +9,9 @@ import Footer from './components/Footer'
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import ProfileScreen from './screens/ProfileScreen'
-import EventRequestScreen from './screens/EventRequestScreen'
+import EventRequestScreen from './screens/eventrequest/EventRequestScreen'
+import EventRequestReviewScreen from './screens/eventrequest/EventRequestReviewScreen'
+import EventRequestDetailScreen from './screens/eventrequest/EventRequestDetailScreen'
 
 const App = () => {
   return (
@@ -20,6 +22,14 @@ const App = () => {
           <Route path='/login' component={LoginScreen} />
           <Route path='/profile' component={ProfileScreen} />
           <Route path='/event/request/create' component={EventRequestScreen} />
+          <Route
+            path='/event/request/review/:id'
+            component={EventRequestReviewScreen}
+          />
+          <Route
+            path='/event/request/detail/:id'
+            component={EventRequestDetailScreen}
+          />
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>

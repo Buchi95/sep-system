@@ -9,6 +9,8 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import userRoutes from './routes/userRoutes.js'
 // route for new event request
 import newEventRequestRoutes from './routes/newEventRequestRoutes.js'
+// route for client
+import clientRoutes from './routes/clientRoutes.js'
 
 const app = express()
 
@@ -30,6 +32,7 @@ app.get('/', (_req, res) => {
 
 app.use('/api/users', userRoutes)
 app.use('/api/event', newEventRequestRoutes)
+app.use('/api/client', clientRoutes)
 
 // adding errormiddlewares
 app.use(notFound)

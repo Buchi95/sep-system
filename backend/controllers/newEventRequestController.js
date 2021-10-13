@@ -25,6 +25,7 @@ const createNewEventRequest = asyncHandler(async (req, res) => {
     expectedBudget,
     preferences,
     eventRequestStatus,
+    employee,
   } = req.body
 
   const clientExists = await Client.findOne({ clientContact })
@@ -39,6 +40,7 @@ const createNewEventRequest = asyncHandler(async (req, res) => {
       expectedBudget,
       preferences,
       eventRequestStatus,
+      employee,
     })
 
     if (newEventRequest) {
@@ -51,6 +53,7 @@ const createNewEventRequest = asyncHandler(async (req, res) => {
         expectedBudget: newEventRequest.expectedBudget,
         preferences: newEventRequest.preferences,
         eventRequestStatus: newEventRequest.eventRequestStatus,
+        employee: newEventRequest.employee,
       })
     } else {
       res.status(400)
@@ -72,6 +75,7 @@ const createNewEventRequest = asyncHandler(async (req, res) => {
         expectedBudget,
         preferences,
         eventRequestStatus,
+        employee,
       })
 
       if (newEventRequestWithNewClient) {
@@ -84,6 +88,7 @@ const createNewEventRequest = asyncHandler(async (req, res) => {
           expectedBudget: newEventRequestWithNewClient.expectedBudget,
           preferences: newEventRequestWithNewClient.preferences,
           eventRequestStatus: newEventRequestWithNewClient.eventRequestStatus,
+          employee: newEventRequestWithNewClient.employee,
         })
       } else {
         res.status(400)

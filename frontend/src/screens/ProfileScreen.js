@@ -37,10 +37,10 @@ const ProfileScreen = ({ history }) => {
     }
   }, [dispatch, history, userInfo, user])
 
-  const submitHandler = (e) => {
-    e.preventDefault()
-    setMessage('Update Profile Functionality will be added for later realease')
-  }
+  // const submitHandler = (e) => {
+  //   e.preventDefault()
+  //   setMessage('Update Profile Functionality will be added for later realease')
+  // }
 
   // onSubmit={submitHandler}
 

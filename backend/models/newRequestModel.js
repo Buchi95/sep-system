@@ -1,24 +1,5 @@
 import mongoose from 'mongoose'
 
-const EventType = Object.freeze({
-  CELEBRATION: 1,
-  WORKSHOP: 2,
-  CONFERENCE: 3,
-  EXPO: 4,
-  SEMINAR: 5,
-  SUMMER_SCHOOL: 6,
-  OTHER: 0,
-})
-
-const Preferences = Object.freeze({
-  DECORATIONS: 1,
-  PARTIES: 2,
-  PHOTOS_FILMING: 3,
-  FOOD: 4,
-  SOFT_HOT_DRINKS: 5,
-  OTHER: 0,
-})
-
 const RequestStatus = Object.freeze({
   UNDER_SENIOR_CUSTOMER_REVIEW: 1,
   REJECTED_BY_SENIOR_CUSTOMER: 11,
@@ -39,8 +20,7 @@ const newRequestSchema = mongoose.Schema(
       ref: 'Client',
     },
     eventType: {
-      type: Number,
-      enum: Object.values(EventType),
+      type: String,
       required: true,
       default: 1,
     },
@@ -61,8 +41,7 @@ const newRequestSchema = mongoose.Schema(
       required: true,
     },
     preferences: {
-      type: [Number],
-      enum: Object.values(Preferences),
+      type: [String],
       required: true,
     },
     eventRequestStatus: {
@@ -71,6 +50,11 @@ const newRequestSchema = mongoose.Schema(
       required: true,
       default: 1,
     },
+    employee: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
   },
   {
     timestamps: true,
@@ -78,11 +62,30 @@ const newRequestSchema = mongoose.Schema(
 )
 
 Object.assign(newRequestSchema.statics, {
-  EventType,
-  Preferences,
   RequestStatus,
 })
 
 const NewRequest = mongoose.model('NewRequest', newRequestSchema)
 
 export default NewRequest
+
+/*
+const EventType = Object.freeze({
+  CELEBRATION: 1,
+  WORKSHOP: 2,
+  CONFERENCE: 3,
+  EXPO: 4,
+  SEMINAR: 5,
+  SUMMER_SCHOOL: 6,
+  OTHER: 0,
+})
+
+const Preferences = Object.freeze({
+  DECORATIONS: 1,
+  PARTIES: 2,
+  PHOTOS_FILMING: 3,
+  FOOD: 4,
+  SOFT_HOT_DRINKS: 5,
+  OTHER: 0,
+})
+*/
