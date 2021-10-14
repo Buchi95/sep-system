@@ -50,6 +50,7 @@ global.getAuthToken = async () => {
     .expect(201)
 
   const token = response.body.token
+  const employee = response.body._id
 
-  return token
+  return { token, employee }
 }

@@ -173,7 +173,7 @@ describe('User Login', () => {
 
 describe('User Profile', () => {
   it('responds with details about current user', async () => {
-    const token = await global.getAuthToken()
+    const { token, employee } = await global.getAuthToken()
 
     const response = await request(app)
       .get('/api/users/profile')
