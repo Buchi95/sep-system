@@ -1,0 +1,31 @@
+import express from 'express'
+import { body } from 'express-validator'
+const router = express.Router()
+
+import { protect } from '../middleware/authMiddleware.js'
+import { createNewEvent } from '../controllers/eventController.js'
+
+router
+  .route('/')
+  .post(
+    protect,
+    [
+      body('eventType').notEmpty().withMessage('Event type must be valid'),
+      body('description').notEmpty().withMessage('Description needed'),
+      body('from').notEmpty().withMessage('From date must be valid'),
+      body('to').notEmpty().withMessage('to date must be valid'),
+      body('numOfAttendees')
+        .notEmpty()
+        .isInt({ min: 10 })
+        .withMessage('Number of attendess should be 10 or greater than 10'),
+      body('plannedBudget')
+        .notEmpty()
+        .isInt({ min: 1000 })
+        .withMessage(
+          'Expected budget must be 1000 sek or greater than 1000 sek'
+        ),
+    ],
+    createNewEvent
+  )
+
+export default router
