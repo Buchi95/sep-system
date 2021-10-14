@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals'
 
 import { Provider } from 'react-redux'
 import store from './store'
+import ClientRequestDetails from './screens/ClientRequestDetails'
 
 ReactDOM.render(
   <Provider store={store}>

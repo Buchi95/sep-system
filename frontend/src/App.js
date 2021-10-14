@@ -10,6 +10,7 @@ import Loader from './components/Loader'
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import ClientRequestDetails from './screens/ClientRequestDetails'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='/login' component={LoginScreen} />
           <Route path='/profile' component={ProfileScreen} />
           <Route path='/' component={HomeScreen} exact />
+          <Route path='/request' component={ClientRequestDetails} />
         </Container>
       </main>
       <Footer />
