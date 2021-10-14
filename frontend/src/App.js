@@ -5,13 +5,18 @@ import { Container } from 'react-bootstrap'
 import Header from './components/Header'
 import Footer from './components/Footer'
 
-// screens
+// screens auth
 import LoginScreen from './screens/LoginScreen'
+// home screen
 import HomeScreen from './screens/HomeScreen'
+// profile screen
 import ProfileScreen from './screens/ProfileScreen'
+// event request screens
 import EventRequestScreen from './screens/eventrequest/EventRequestScreen'
 import EventRequestReviewScreen from './screens/eventrequest/EventRequestReviewScreen'
 import EventRequestDetailScreen from './screens/eventrequest/EventRequestDetailScreen'
+// event screens
+import EventSpecificationScreen from './screens/event/EventSpecificationScreen'
 
 const App = () => {
   return (
@@ -29,6 +34,10 @@ const App = () => {
           <Route
             path='/event/request/detail/:id'
             component={EventRequestDetailScreen}
+          />
+          <Route
+            path='/event/specification'
+            component={EventSpecificationScreen}
           />
           <Route path='/' component={HomeScreen} exact />
         </Container>

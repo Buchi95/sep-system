@@ -135,7 +135,9 @@ const EventRequestReviewScreen = ({ history, match }) => {
                         'Under Review by AM'
                       ) : event.eventRequestStatus === 33 ? (
                         'Rejected by AM'
-                      ) : event.eventRequestStatus === 4 ? (
+                      ) : event.eventRequestStatus === 4 &&
+                        userInfo &&
+                        userInfo.role === 'Senior_Customer_Service_Officer' ? (
                         <Row>
                           <Col>Approved</Col>
                           <Col>
@@ -144,6 +146,8 @@ const EventRequestReviewScreen = ({ history, match }) => {
                             </Button>
                           </Col>
                         </Row>
+                      ) : event.eventRequestStatus === 4 ? (
+                        'Approved'
                       ) : event.eventRequestStatus === 5 ? (
                         'Event Created'
                       ) : event.eventRequestStatus === 0 ? (
@@ -186,6 +190,10 @@ const EventRequestReviewScreen = ({ history, match }) => {
                             <i className='fas fa-times-circle'></i>
                           </Button>
                         </>
+                      ) : event.eventRequestStatus === 4 ? (
+                        'Approved'
+                      ) : event.eventRequestStatus === 5 ? (
+                        'Event Created'
                       ) : (
                         'Processing...'
                       )}
