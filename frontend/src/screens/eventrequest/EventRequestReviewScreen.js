@@ -89,7 +89,7 @@ const EventRequestReviewScreen = ({ history, match }) => {
                         to={{
                           pathname: `/event/request/detail/${match.params.id}`,
                           state: {
-                            event: event,
+                            eventRequest: event,
                             client: event.client,
                           },
                         }}

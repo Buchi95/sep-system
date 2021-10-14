@@ -101,4 +101,27 @@ describe('New Event Request', () => {
       })
       .expect(204)
   })
+
+  it('request fails when num of attendees and budget is less', async () => {
+    const { token, employee } = await global.getAuthToken()
+
+    const eventRequest = {
+      clientName: 'clientName',
+      clientContact: 'clientContact',
+      eventType: 'CELEBRATION',
+      from: Date.now(),
+      to: Date.now(),
+      numOfAttendees: 2,
+      expectedBudget: 800,
+      preferences: ['DECORATIONS', 'PARTIES'],
+      eventRequestStatus: 1,
+      employee,
+    }
+
+    const response = await request(app)
+      .post('/api/event/request')
+      .set('Authorization', 'Bearer ' + token)
+      .send(eventRequest)
+      .expect(400)
+  })
 })

@@ -12,6 +12,8 @@ import {
 import {
   createEventRequestReducer,
   getEventRequestStatusReducer,
+  getAllEventsRequestsReducer,
+  updateEventRequestStatusReducer,
 } from './redux/reducers/eventFlowReducers'
 
 // client reducer
@@ -22,6 +24,8 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   createEventRequest: createEventRequestReducer,
   getEventReqStatus: getEventRequestStatusReducer,
+  getAllEventsRequests: getAllEventsRequestsReducer,
+  updateEventRequestStatus: updateEventRequestStatusReducer,
   getClient: getClientReducer,
 })
 
@@ -37,6 +41,7 @@ const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
   createEventRequest: { eventRequestInfo: eventRequestInfoFromStorage },
   getEventReqStatus: { eventRequestInfoByStatus: [] },
+  getEventRequestStatus: { eventsRequestsInfo: [] },
   getClient: { clientInfo: {} },
 }
 

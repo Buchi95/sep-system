@@ -90,8 +90,8 @@ const EventRequestScreen = ({ history }) => {
     if (!from || from === '')
       newErrors.from = 'Please select from date for event!'
     if (!to || to === '') newErrors.to = 'Please select to date for event!'
-    if (!numOfAttendees || numOfAttendees < 5)
-      newErrors.numOfAttendees = 'The attendees must be greater then 5'
+    if (!numOfAttendees || numOfAttendees < 10)
+      newErrors.numOfAttendees = 'The attendees must be greater then 10'
     if (!expectedBudget || expectedBudget < 1000)
       newErrors.expectedBudget =
         'The expected budget must be greater then 1000sek'

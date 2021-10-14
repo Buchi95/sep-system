@@ -25,10 +25,14 @@ router
       body('to').notEmpty().withMessage('to date must be valid'),
       body('numOfAttendees')
         .notEmpty()
-        .withMessage('Number of attendess should be valid number'),
+        .isInt({ min: 10 })
+        .withMessage('Number of attendess should be 10 or greater than 10'),
       body('expectedBudget')
         .notEmpty()
-        .withMessage('Expected budget must be valid'),
+        .isInt({ min: 1000 })
+        .withMessage(
+          'Expected budget must be 1000 sek or greater than 1000 sek'
+        ),
       body('eventRequestStatus')
         .notEmpty()
         .withMessage('Event Request Status must be valid'),
