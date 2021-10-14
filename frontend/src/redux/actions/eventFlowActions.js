@@ -5,9 +5,6 @@ import {
   GET_EVENT_BY_STATUS_REQUEST,
   GET_EVENT_BY_STATUS_SUCCESS,
   GET_EVENT_BY_STATUS_FAIL,
-  GET_ALL_EVENTS_REQUESTS_REQUEST,
-  GET_ALL_EVENTS_REQUESTS_SUCCESS,
-  GET_ALL_EVENTS_REQUESTS_FAIL,
   UPDATE_EVENT_REQUEST_STATUS_REQUEST,
   UPDATE_EVENT_REQUEST_STATUS_SUCCESS,
   UPDATE_EVENT_REQUEST_STATUS_FAIL,
@@ -97,10 +94,10 @@ export const getEventRequestStatus =
         },
       }
 
-      const { data } = await axios.get(
-        `/api/event/request/${eventRequestStatus}`,
-        config
-      )
+      const { data } =
+        eventRequestStatus !== '1' && eventRequestStatus !== '3'
+          ? await axios.get(`/api/event/request/${eventRequestStatus}`, config)
+          : await axios.get(`/api/event/request`, config)
 
       dispatch({
         type: GET_EVENT_BY_STATUS_SUCCESS,
@@ -117,43 +114,8 @@ export const getEventRequestStatus =
     }
   }
 
-export const getEventsRequests = () => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: GET_ALL_EVENTS_REQUESTS_REQUEST,
-    })
-
-    const {
-      userLogin: { userInfo },
-    } = getState()
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    }
-
-    const { data } = await axios.get(`/api/event/request`, config)
-
-    dispatch({
-      type: GET_ALL_EVENTS_REQUESTS_SUCCESS,
-      payload: data,
-    })
-  } catch (error) {
-    dispatch({
-      type: GET_ALL_EVENTS_REQUESTS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    })
-  }
-}
-
 export const updateEventRequestStatus =
-  ({ id, eventRequestStatus }) =>
-  async (dispatch, getState) => {
+  (id, eventRequestStatus) => async (dispatch, getState) => {
     try {
       dispatch({
         type: UPDATE_EVENT_REQUEST_STATUS_REQUEST,

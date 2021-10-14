@@ -5,9 +5,6 @@ import {
   GET_EVENT_BY_STATUS_REQUEST,
   GET_EVENT_BY_STATUS_SUCCESS,
   GET_EVENT_BY_STATUS_FAIL,
-  GET_ALL_EVENTS_REQUESTS_REQUEST,
-  GET_ALL_EVENTS_REQUESTS_SUCCESS,
-  GET_ALL_EVENTS_REQUESTS_FAIL,
   UPDATE_EVENT_REQUEST_STATUS_REQUEST,
   UPDATE_EVENT_REQUEST_STATUS_SUCCESS,
   UPDATE_EVENT_REQUEST_STATUS_FAIL,
@@ -33,19 +30,6 @@ export const getEventRequestStatusReducer = (state = {}, action) => {
     case GET_EVENT_BY_STATUS_SUCCESS:
       return { loading: false, eventRequestInfoByStatus: action.payload }
     case GET_EVENT_BY_STATUS_FAIL:
-      return { loading: false, error: action.payload }
-    default:
-      return state
-  }
-}
-
-export const getAllEventsRequestsReducer = (state = {}, action) => {
-  switch (action.type) {
-    case GET_ALL_EVENTS_REQUESTS_REQUEST:
-      return { loading: true }
-    case GET_ALL_EVENTS_REQUESTS_SUCCESS:
-      return { loading: false, eventsRequestsInfo: action.payload }
-    case GET_ALL_EVENTS_REQUESTS_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

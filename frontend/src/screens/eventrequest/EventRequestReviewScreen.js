@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 
-import { getEventRequestStatus } from '../../redux/actions/eventFlowActions'
+import {
+  getEventRequestStatus,
+  updateEventRequestStatus,
+} from '../../redux/actions/eventFlowActions'
 
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
@@ -17,13 +20,72 @@ const EventRequestReviewScreen = ({ history, match }) => {
   const getEventReqStatus = useSelector((state) => state.getEventReqStatus)
   const { error, loading, eventRequestInfoByStatus: events } = getEventReqStatus
 
+  const updateEventReqStatus = useSelector(
+    (state) => state.updateEventRequestStatus
+  )
+  const {
+    error: errorUpdate,
+    loading: loadingUpdate,
+    updatedEventRequest,
+  } = updateEventReqStatus
+
   useEffect(() => {
     if (!userInfo) {
       history.push('/login')
     } else {
       dispatch(getEventRequestStatus(match.params.id))
     }
-  }, [dispatch, history, userInfo, match])
+  }, [dispatch, history, userInfo, match, updatedEventRequest])
+
+  const approveRequest = (id, status) => {
+    if (
+      userInfo &&
+      userInfo.role === 'Senior_Customer_Service_Officer' &&
+      status === 1
+    ) {
+      if (window.confirm('Are you sure to approve request?'))
+        dispatch(updateEventRequestStatus(id, 2))
+    }
+
+    if (userInfo && userInfo.role === 'Financial_Manager' && status === 2) {
+      if (window.confirm('Are you sure to approve request?'))
+        dispatch(updateEventRequestStatus(id, 3))
+    }
+
+    if (
+      userInfo &&
+      userInfo.role === 'Administration_Manager' &&
+      status === 3
+    ) {
+      if (window.confirm('Are you sure to approve request?'))
+        dispatch(updateEventRequestStatus(id, 4))
+    }
+  }
+
+  const rejectRequest = (id, status) => {
+    if (
+      userInfo &&
+      userInfo.role === 'Senior_Customer_Service_Officer' &&
+      status === 1
+    ) {
+      if (window.confirm('Are you sure to reject request?'))
+        dispatch(updateEventRequestStatus(id, 11))
+    }
+
+    if (userInfo && userInfo.role === 'Financial_Manager' && status === 2) {
+      if (window.confirm('Are you sure to reject request?'))
+        dispatch(updateEventRequestStatus(id, 22))
+    }
+
+    if (
+      userInfo &&
+      userInfo.role === 'Administration_Manager' &&
+      status === 3
+    ) {
+      if (window.confirm('Are you sure to reject request?'))
+        dispatch(updateEventRequestStatus(id, 33))
+    }
+  }
 
   return (
     <>
@@ -61,28 +123,72 @@ const EventRequestReviewScreen = ({ history, match }) => {
                     <td>{event.from.substring(0, 10)}</td>
                     <td>{event.to.substring(0, 10)}</td>
                     <td>
-                      {event.eventRequestStatus === 1
-                        ? 'Under Review by SCS'
-                        : event.eventRequestStatus === 2
-                        ? 'Under Review by FM'
-                        : 'Under Review by AM'}
+                      {event.eventRequestStatus === 1 ? (
+                        'Under Review by SCS'
+                      ) : event.eventRequestStatus === 11 ? (
+                        'Rejected by SCS'
+                      ) : event.eventRequestStatus === 2 ? (
+                        'Under Review by FM'
+                      ) : event.eventRequestStatus === 22 ? (
+                        'Rejected by FM'
+                      ) : event.eventRequestStatus === 3 ? (
+                        'Under Review by AM'
+                      ) : event.eventRequestStatus === 33 ? (
+                        'Rejected by AM'
+                      ) : event.eventRequestStatus === 4 ? (
+                        <Row>
+                          <Col>Approved</Col>
+                          <Col>
+                            <Button variant='success' className='btn-sm'>
+                              {'Create Event'}
+                            </Button>
+                          </Col>
+                        </Row>
+                      ) : event.eventRequestStatus === 5 ? (
+                        'Event Created'
+                      ) : event.eventRequestStatus === 0 ? (
+                        'Event Closed'
+                      ) : (
+                        'SEP Event'
+                      )}
                     </td>
                     <td>
-                      <Button
-                        variant='success'
-                        className='btn-sm'
-                        onClick={() => console.log('hello')}
-                      >
-                        <i class='fas fa-check-circle'></i>
-                      </Button>
-                      <Button
-                        style={{ marginLeft: 20 }}
-                        variant='danger'
-                        className='btn-sm'
-                        onClick={() => console.log('hello2')}
-                      >
-                        <i class='fas fa-times-circle'></i>
-                      </Button>
+                      {(userInfo &&
+                        userInfo.role === 'Senior_Customer_Service_Officer' &&
+                        event.eventRequestStatus === 1) ||
+                      (userInfo &&
+                        userInfo.role === 'Financial_Manager' &&
+                        event.eventRequestStatus === 2) ||
+                      (userInfo &&
+                        userInfo.role === 'Administration_Manager' &&
+                        event.eventRequestStatus === 3) ? (
+                        <>
+                          <Button
+                            variant='success'
+                            className='btn-sm'
+                            onClick={() =>
+                              approveRequest(
+                                event._id,
+                                event.eventRequestStatus
+                              )
+                            }
+                          >
+                            <i className='fas fa-check-circle'></i>
+                          </Button>
+                          <Button
+                            style={{ marginLeft: 20 }}
+                            variant='danger'
+                            className='btn-sm'
+                            onClick={() =>
+                              rejectRequest(event._id, event.eventRequestStatus)
+                            }
+                          >
+                            <i className='fas fa-times-circle'></i>
+                          </Button>
+                        </>
+                      ) : (
+                        'Processing...'
+                      )}
                     </td>
                     <td>
                       <Link
@@ -95,7 +201,7 @@ const EventRequestReviewScreen = ({ history, match }) => {
                         }}
                       >
                         <Button variant='primary' className='btn-sm'>
-                          <i class='fas fa-info-circle'></i>
+                          <i className='fas fa-info-circle'></i>
                         </Button>
                       </Link>
                     </td>
