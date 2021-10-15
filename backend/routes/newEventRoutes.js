@@ -3,7 +3,12 @@ import { body } from 'express-validator'
 const router = express.Router()
 
 import { protect } from '../middleware/authMiddleware.js'
-import { createNewEvent } from '../controllers/eventController.js'
+import {
+  createNewEvent,
+  getEvent,
+  getAllEvents,
+  updateEventStatus,
+} from '../controllers/eventController.js'
 
 router
   .route('/')
@@ -32,5 +37,18 @@ router
     ],
     createNewEvent
   )
+  .get(protect, getAllEvents)
+  .put(
+    protect,
+    [
+      body('id').notEmpty().withMessage('Id of event needed for update'),
+      body('eventStatus')
+        .notEmpty()
+        .withMessage('Event Status should be valid'),
+    ],
+    updateEventStatus
+  )
+
+router.route('/:eventStatus').get(protect, getEvent)
 
 export default router
