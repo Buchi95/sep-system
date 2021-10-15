@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import FormControl from 'react-bootstrap/FormControl'
@@ -7,22 +7,15 @@ import FormControl from 'react-bootstrap/FormControl'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 
+import { getClientInfo } from '../../redux/actions/clientActions'
+
 const EventSpecificationScreen = ({ history }) => {
-  const [clientName, setClientName] = useState('')
-  const [clientContact, setClientContact] = useState('')
-  const [eventType, setEventType] = useState('Other')
-  const [description, setDescription] = useState('')
-  const [from, setFrom] = useState('')
-  const [to, setTo] = useState('')
-  const [numOfAttendees, setNumOfAttendees] = useState(0)
-  const [expectedBudget, setExpectedBudget] = useState(0)
-  const [decorations, setDecorations] = useState('')
-  const [food, setFood] = useState('')
-  const [filming, setFilming] = useState('')
-  const [music, setMusic] = useState('')
-  const [art, setArt] = useState('')
-  const [it, setIt] = useState('')
-  const [others, setOthers] = useState('')
+  const location = useLocation()
+
+  const { eventRequest } = location.state ? location.state : {}
+  const { client } = location.state ? location.state : {}
+
+  console.log(eventRequest)
 
   // form errors
   const [errors, setErrors] = useState({})
@@ -33,11 +26,43 @@ const EventSpecificationScreen = ({ history }) => {
 
   const { loading, error, userInfo } = userLogin
 
+  const getClient = useSelector((state) => state.getClient)
+  const { loading: loadingC, error: errorC, clientInfo } = getClient
+
+  const [clientName, setClientName] = useState(
+    clientInfo && clientInfo.clientName
+  )
+  const [clientContact, setClientContact] = useState(
+    clientInfo && clientInfo.clientContact
+  )
+
   const redirect = '/login'
 
+  const [eventType, setEventType] = useState(eventRequest.eventType)
+  const [description, setDescription] = useState('')
+  const [from, setFrom] = useState(eventRequest.from)
+  const [to, setTo] = useState(eventRequest.to)
+  const [numOfAttendees, setNumOfAttendees] = useState(
+    eventRequest.numOfAttendees
+  )
+  const [expectedBudget, setExpectedBudget] = useState(
+    eventRequest.expectedBudget
+  )
+  const [decorations, setDecorations] = useState('')
+  const [food, setFood] = useState('')
+  const [filming, setFilming] = useState('')
+  const [music, setMusic] = useState('')
+  const [art, setArt] = useState('')
+  const [it, setIt] = useState('')
+  const [others, setOthers] = useState('')
+
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo || userInfo.role !== 'Senior_Customer_Service_Officer') {
       history.push(redirect)
+    }
+
+    if (client) {
+      dispatch(getClientInfo(client))
     }
 
     // if (success) {
@@ -52,7 +77,7 @@ const EventSpecificationScreen = ({ history }) => {
     //   setExpectedBudget(0)
     //   setPreferences([])
     // }
-  }, [history, userInfo, redirect])
+  }, [history, userInfo, redirect, client, dispatch])
 
   const findFormErrors = () => {
     const newErrors = {}
@@ -95,11 +120,15 @@ const EventSpecificationScreen = ({ history }) => {
 
   return (
     <div>
-      <Link style={{ position: 'absolute' }} className='btn btn-dark' to='/'>
+      <Link
+        style={{ position: 'absolute' }}
+        className='btn btn-dark'
+        to='/event/request/review/1'
+      >
         Go Back
       </Link>
-      {error && <Message variant='danger'>{error}</Message>}
-      {loading && <Loader />}
+      {(error || errorC) && <Message variant='danger'>{error}</Message>}
+      {(loading || loadingC) && <Loader />}
       <Container>
         <Row>
           <Col md={{ span: 8, offset: 2 }}>
@@ -214,7 +243,7 @@ const EventSpecificationScreen = ({ history }) => {
                   <Form.Label>From</Form.Label>
                   <Form.Control
                     type='date'
-                    value={from}
+                    value={from.substring(0, 10)}
                     onChange={(e) => setFrom(e.target.value)}
                     isInvalid={!!errors.from}
                   />
@@ -226,7 +255,7 @@ const EventSpecificationScreen = ({ history }) => {
                   <Form.Label>To</Form.Label>
                   <Form.Control
                     type='date'
-                    value={to}
+                    value={to.substring(0, 10)}
                     onChange={(e) => setTo(e.target.value)}
                     isInvalid={!!errors.to}
                   />

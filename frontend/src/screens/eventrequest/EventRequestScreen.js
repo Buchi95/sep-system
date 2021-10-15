@@ -59,7 +59,7 @@ const EventRequestScreen = ({ history }) => {
   } = createEventRequest
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo || userInfo.role !== 'Customer_Service') {
       history.push(redirect)
     }
 

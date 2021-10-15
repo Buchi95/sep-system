@@ -10,6 +10,10 @@ router
   .post(
     protect,
     [
+      body('clientName').notEmpty().withMessage('Client name must be valid'),
+      body('clientContact')
+        .notEmpty()
+        .withMessage('Client contact must be valid'),
       body('eventType').notEmpty().withMessage('Event type must be valid'),
       body('description').notEmpty().withMessage('Description needed'),
       body('from').notEmpty().withMessage('From date must be valid'),
