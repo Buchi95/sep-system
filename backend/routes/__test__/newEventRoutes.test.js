@@ -34,7 +34,7 @@ describe('New Event', () => {
       clientName: 'clientName',
       clientContact: 'clientContact',
       eventType: 'CELEBRATION',
-      description: 'Motherfucker',
+      description: 'event',
       from: Date.now(),
       to: Date.now(),
       numOfAttendees: 20,
