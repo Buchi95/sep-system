@@ -10,6 +10,9 @@ import {
   DPT_USERS_REQUEST,
   DPT_USERS_SUCCESS,
   DPT_USERS_FAIL,
+  ASSIGN_TASK_REQUEST,
+  ASSIGN_TASK_SUCCESS,
+  ASSIGN_TASK_FAIL,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -49,6 +52,19 @@ export const dptUsersReducer = (state = { dpUsers: [] }, action) => {
     case DPT_USERS_SUCCESS:
       return { loading: false, dpUsers: action.payload }
     case DPT_USERS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const assignTaskReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ASSIGN_TASK_REQUEST:
+      return { loading: true }
+    case ASSIGN_TASK_SUCCESS:
+      return { loading: false, success: true, message: action.payload }
+    case ASSIGN_TASK_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

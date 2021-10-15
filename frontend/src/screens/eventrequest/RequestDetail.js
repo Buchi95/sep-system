@@ -35,7 +35,7 @@ const RequestDetail = ({ history, match }) => {
     if (client) {
       dispatch(getClientInfo(client))
     }
-  }, [userInfo, client])
+  }, [dispatch, history, userInfo, client])
 
   return (
     <>

@@ -23,11 +23,7 @@ const EventRequests = ({ history, match }) => {
   const updateEventReqStatus = useSelector(
     (state) => state.updateEventRequestStatus
   )
-  const {
-    error: errorUpdate,
-    loading: loadingUpdate,
-    updatedEventRequest,
-  } = updateEventReqStatus
+  const { updatedEventRequest } = updateEventReqStatus
 
   useEffect(() => {
     if (

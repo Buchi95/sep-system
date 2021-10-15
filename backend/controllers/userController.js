@@ -159,16 +159,16 @@ const getUsersByDpt = asyncHandler(async (req, res) => {
  *   @access Private
  */
 const assignTask = asyncHandler(async (req, res) => {
-  const { description, priority, active } = req.body
+  const { employee, description, priority, active, projectRef } = req.body
 
-  const user = await User.findById(req.user._id)
+  const user = await User.findById(employee)
 
   if (user) {
-    user.tasks.push({ description, priority, active })
+    user.tasks.push({ description, priority, active, projectRef })
 
     await user.save()
 
-    res.status(204).json(user) // updated 204
+    res.status(204).json({ message: 'Task assigned' }) // updated 204
   } else {
     res.status(404)
     throw new Error('User not found')
@@ -181,7 +181,7 @@ const assignTask = asyncHandler(async (req, res) => {
  *   @access Private
  */
 const deleteUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id)
+  const user = await User.findById(req.params.id).select('-password')
 
   if (user) {
     await user.remove()

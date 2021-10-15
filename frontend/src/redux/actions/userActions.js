@@ -10,6 +10,9 @@ import {
   DPT_USERS_REQUEST,
   DPT_USERS_SUCCESS,
   DPT_USERS_FAIL,
+  ASSIGN_TASK_REQUEST,
+  ASSIGN_TASK_SUCCESS,
+  ASSIGN_TASK_FAIL,
 } from '../constants/userConstants'
 
 import axios from 'axios'
@@ -129,3 +132,44 @@ export const getDptUsers = (dpt) => async (dispatch, getState) => {
     })
   }
 }
+
+// assign task to employee
+export const assignTaskToEmployee =
+  ({ employee, description, priority, active, projectRef }) =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: ASSIGN_TASK_REQUEST,
+      })
+
+      const {
+        userLogin: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.put(
+        `/api/users`,
+        { employee, description, priority, active, projectRef },
+        config
+      )
+
+      dispatch({
+        type: ASSIGN_TASK_SUCCESS,
+        payload: data,
+      })
+    } catch (error) {
+      dispatch({
+        type: ASSIGN_TASK_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }

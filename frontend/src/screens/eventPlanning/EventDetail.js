@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Row, Col, ListGroup, Container, Form } from 'react-bootstrap'
+import { Row, Col, ListGroup, Container } from 'react-bootstrap'
 
 import { getClientInfo } from '../../redux/actions/clientActions'
 
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 
-const EventDetail = ({ history, match }) => {
+const EventDetail = ({ history }) => {
   const dispatch = useDispatch()
 
   const location = useLocation()
@@ -37,7 +37,7 @@ const EventDetail = ({ history, match }) => {
     if (client) {
       dispatch(getClientInfo(client))
     }
-  }, [userInfo, client])
+  }, [dispatch, history, userInfo, client])
 
   return (
     <>

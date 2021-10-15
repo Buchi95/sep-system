@@ -37,12 +37,12 @@ router.post(
   authUser
 )
 
+router.route('/').put(protect, assignTask)
+
 router.route('/profile').get(protect, getUserProfile)
 
 router.route('/role/:role').get(protect, getUsersByRole)
 
 router.route('/dpt/:dpt').get(protect, getUsersByDpt)
-
-router.route('/').put(protect, assignTask)
 
 export default router

@@ -38,6 +38,11 @@ const userSchema = mongoose.Schema(
           type: Boolean,
           required: false,
         },
+        projectRef: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: false,
+          ref: 'NewEvent',
+        },
       },
     ],
     subdepartment: {
