@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 const RequestStatus = Object.freeze({
+  CREATED: 0,
   UNDER_SENIOR_CUSTOMER_REVIEW: 1,
   REJECTED_BY_SENIOR_CUSTOMER: 11,
   UNDER_FINANCIAL_MANAGER_REVIEW: 2,
@@ -48,7 +49,7 @@ const newRequestSchema = mongoose.Schema(
       type: Number,
       enum: Object.values(RequestStatus),
       required: true,
-      default: 1,
+      default: 0,
     },
     employee: {
       type: mongoose.Schema.Types.ObjectId,

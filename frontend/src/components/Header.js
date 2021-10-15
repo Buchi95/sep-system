@@ -28,7 +28,13 @@ const Header = () => {
           <Navbar.Collapse className='justify-content-end'>
             <Nav className='ml-auto'>
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id='username'>
+                <NavDropdown
+                  title={`${userInfo.name} - ${userInfo.role.replaceAll(
+                    '_',
+                    ' '
+                  )}`}
+                  id='username'
+                >
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>

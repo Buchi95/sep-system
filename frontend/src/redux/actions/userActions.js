@@ -7,6 +7,9 @@ import {
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_RESET,
+  DPT_USERS_REQUEST,
+  DPT_USERS_SUCCESS,
+  DPT_USERS_FAIL,
 } from '../constants/userConstants'
 
 import axios from 'axios'
@@ -84,6 +87,41 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+// get users by dpt
+export const getDptUsers = (dpt) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: DPT_USERS_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.get(`/api/users/dpt/${dpt}`, config)
+
+    dispatch({
+      type: DPT_USERS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: DPT_USERS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

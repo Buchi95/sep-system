@@ -9,7 +9,7 @@ import Loader from '../../components/Loader'
 
 import { createEventReq } from '../../redux/actions/eventFlowActions'
 
-const EventRequestScreen = ({ history }) => {
+const EventRequest = ({ history }) => {
   const [clientName, setClientName] = useState('')
   const [clientContact, setClientContact] = useState('')
   const [eventType, setEventType] = useState('Other')
@@ -75,6 +75,7 @@ const EventRequestScreen = ({ history }) => {
       setExpectedBudget(0)
       setPreferences([])
       setChecked([])
+      history.push('/')
     }
   }, [history, userInfo, redirect, success])
 
@@ -330,4 +331,4 @@ const EventRequestScreen = ({ history }) => {
   )
 }
 
-export default EventRequestScreen
+export default EventRequest

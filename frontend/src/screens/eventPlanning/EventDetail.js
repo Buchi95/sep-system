@@ -8,12 +8,12 @@ import { getClientInfo } from '../../redux/actions/clientActions'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 
-const EventRequestDetailScreen = ({ history, match }) => {
+const EventDetail = ({ history, match }) => {
   const dispatch = useDispatch()
 
   const location = useLocation()
 
-  const { eventRequest } = location.state ? location.state : {}
+  const { event } = location.state ? location.state : {}
   const { client } = location.state ? location.state : {}
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -27,7 +27,9 @@ const EventRequestDetailScreen = ({ history, match }) => {
       !userInfo ||
       (userInfo.role !== 'Senior_Customer_Service_Officer' &&
         userInfo.role !== 'Financial_Manager' &&
-        userInfo.role !== 'Administration_Manager')
+        userInfo.role !== 'Administration_Manager' &&
+        userInfo.role !== 'Production_Manager' &&
+        userInfo.role !== 'Services_Manager')
     ) {
       history.push('/login')
     }
@@ -42,7 +44,7 @@ const EventRequestDetailScreen = ({ history, match }) => {
       <Link
         style={{ position: 'absolute', marginTop: 0 }}
         className='btn btn-primary my-1'
-        to={`/event/request/review/${match.params.id}`}
+        to={`/events`}
       >
         Go Back
       </Link>
@@ -51,7 +53,7 @@ const EventRequestDetailScreen = ({ history, match }) => {
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
-      ) : client && eventRequest ? (
+      ) : client && event ? (
         <>
           <Container>
             <Row className='justify-content-md-center'>
@@ -61,31 +63,32 @@ const EventRequestDetailScreen = ({ history, match }) => {
                     <Row>
                       <Col md={4}>
                         <h4>Event</h4>
-                        <p>{eventRequest.eventType}</p>
+                        <p>{event.eventType}</p>
                       </Col>
                       <Col md={4}>
                         <h4>Request Status</h4>
                         <p>
-                          {eventRequest.eventRequestStatus === 1
-                            ? 'Under Review by SCS'
-                            : eventRequest.eventRequestStatus === 11
-                            ? 'Rejected by SCS'
-                            : eventRequest.eventRequestStatus === 2
+                          {event.eventStatus === 1
+                            ? 'Initiated'
+                            : event.eventStatus === 2
+                            ? 'Tasks Divided'
+                            : event.eventStatus === 3
+                            ? 'Plans submitted'
+                            : event.eventStatus === 4
+                            ? 'Extras Request Submitted'
+                            : event.eventStatus === 5
                             ? 'Under Review by FM'
-                            : eventRequest.eventRequestStatus === 22
-                            ? 'Rejected by FM'
-                            : eventRequest.eventRequestStatus === 3
-                            ? 'Under Review by AM'
-                            : eventRequest.eventRequestStatus === 33
-                            ? 'Rejected by AM'
-                            : eventRequest.eventRequestStatus === 4
-                            ? 'Request Approved'
-                            : eventRequest.eventRequestStatus === 5
-                            ? 'Contined to Event'
-                            : eventRequest.eventRequestStatus === 0
-                            ? 'Event Closed'
-                            : 'SEP Event'}
+                            : 'Closed'}
                         </p>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <br />
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>
+                        <h4>Description</h4>
+                        <p>{event.description}</p>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -107,11 +110,11 @@ const EventRequestDetailScreen = ({ history, match }) => {
                     <Row>
                       <Col md={4}>
                         <h4>From</h4>
-                        <p>{eventRequest.from.substring(0, 10)} </p>
+                        <p>{event.from.substring(0, 10)} </p>
                       </Col>
                       <Col md={4}>
                         <h4>To</h4>
-                        <p>{eventRequest.to.substring(0, 10)} </p>
+                        <p>{event.to.substring(0, 10)} </p>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -120,31 +123,36 @@ const EventRequestDetailScreen = ({ history, match }) => {
                     <Row>
                       <Col md={4}>
                         <h4>Attendees</h4>
-                        <p>{eventRequest.numOfAttendees} </p>
+                        <p>{event.numOfAttendees} </p>
                       </Col>
                       <Col md={4}>
-                        <h4>Expected Budget</h4>
-                        <p>{eventRequest.expectedBudget} </p>
+                        <h4>Planned Budget</h4>
+                        <p>{event.plannedBudget} </p>
                       </Col>
                     </Row>
                   </ListGroup.Item>
                   <br />
                   <ListGroup.Item>
                     <h4>Preferences</h4>
+                    <br />
                     <Row>
-                      {eventRequest &&
-                        eventRequest.preferences.map(
+                      {event &&
+                        Object.keys(event.preferences).map(
                           (item, index) =>
                             item !== null && (
-                              <Col key={index} md={2}>
-                                <Form.Check
+                              <Row>
+                                <Col key={index}>
+                                  {/* <Form.Check
                                   disabled
                                   type={'checkbox'}
                                   id={`default-checkbox`}
                                   label={item}
                                   checked={true}
-                                />
-                              </Col>
+                                /> */}
+                                  <h4>{item.replaceAll('_', ' ')}</h4>
+                                  <p>{event.preferences[item]}</p>
+                                </Col>
+                              </Row>
                             )
                         )}
                     </Row>
@@ -161,4 +169,4 @@ const EventRequestDetailScreen = ({ history, match }) => {
   )
 }
 
-export default EventRequestDetailScreen
+export default EventDetail

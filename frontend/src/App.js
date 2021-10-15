@@ -12,11 +12,15 @@ import HomeScreen from './screens/HomeScreen'
 // profile screen
 import ProfileScreen from './screens/ProfileScreen'
 // event request screens
-import EventRequestScreen from './screens/eventrequest/EventRequestScreen'
-import EventRequestReviewScreen from './screens/eventrequest/EventRequestReviewScreen'
-import EventRequestDetailScreen from './screens/eventrequest/EventRequestDetailScreen'
-// event screens
-import EventSpecificationScreen from './screens/event/EventSpecificationScreen'
+import EventRequest from './screens/eventrequest/EventRequest'
+import EventRequests from './screens/eventrequest/EventRequests'
+import RequestDetail from './screens/eventrequest/RequestDetail'
+// event creation screen
+import EventSpecification from './screens/event/EventSpecification'
+// event planning screens
+import Events from './screens/eventPlanning/Events'
+import EventDetail from './screens/eventPlanning/EventDetail'
+import SubTeamTasks from './screens/eventPlanning/SubTeamTasks'
 
 const App = () => {
   return (
@@ -24,21 +28,23 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          <Route path='/login' component={LoginScreen} />
-          <Route path='/profile' component={ProfileScreen} />
-          <Route path='/event/request/create' component={EventRequestScreen} />
-          <Route
-            path='/event/request/review/:id'
-            component={EventRequestReviewScreen}
-          />
+          <Route path='/login' component={LoginScreen} exact />
+          <Route path='/profile' component={ProfileScreen} exact />
+          <Route path='/event/request/create' component={EventRequest} exact />
+          <Route path='/event/requests/:id' component={EventRequests} exact />
           <Route
             path='/event/request/detail/:id'
-            component={EventRequestDetailScreen}
+            component={RequestDetail}
+            exact
           />
           <Route
             path='/event/specification'
-            component={EventSpecificationScreen}
+            component={EventSpecification}
+            exact
           />
+          <Route path='/events' component={Events} exact />
+          <Route path='/events/detail' component={EventDetail} exact />
+          <Route path='/events/subteam' component={SubTeamTasks} exact />
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>

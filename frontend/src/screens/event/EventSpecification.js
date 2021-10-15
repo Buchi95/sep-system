@@ -13,7 +13,7 @@ import {
   updateEventRequestStatus,
 } from '../../redux/actions/eventFlowActions'
 
-const EventSpecificationScreen = ({ history }) => {
+const EventSpecification = ({ history }) => {
   const location = useLocation()
 
   const { eventRequest } = location.state ? location.state : {}
@@ -145,7 +145,7 @@ const EventSpecificationScreen = ({ history }) => {
       <Link
         style={{ position: 'absolute' }}
         className='btn btn-dark'
-        to='/event/request/review/1'
+        to='/event/requests/1'
       >
         Go Back
       </Link>
@@ -391,4 +391,4 @@ const EventSpecificationScreen = ({ history }) => {
   )
 }
 
-export default EventSpecificationScreen
+export default EventSpecification

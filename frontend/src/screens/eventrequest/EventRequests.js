@@ -11,7 +11,7 @@ import {
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 
-const EventRequestReviewScreen = ({ history, match }) => {
+const EventRequests = ({ history, match }) => {
   const dispatch = useDispatch()
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -238,6 +238,6 @@ const EventRequestReviewScreen = ({ history, match }) => {
   )
 }
 
-export default EventRequestReviewScreen
+export default EventRequests
 
 // https://ui.dev/react-router-pass-props-to-link/
