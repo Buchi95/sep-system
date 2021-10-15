@@ -18,7 +18,7 @@ const HomeScreen = ({ history }) => {
 
   return (
     <>
-      <SubTeamTasksScreen />
+      <RecruitmentRequestScreen />
 
     </>
   )
