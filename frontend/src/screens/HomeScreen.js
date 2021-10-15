@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Row, Col } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 
 const HomeScreen = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin)
@@ -59,42 +59,44 @@ const HomeScreen = ({ history }) => {
         </Link>
       )}
 
-      {userInfo && userInfo.role === 'Production_Manager' && (
-        <>
-          <br />
-          <Row>
-            <Row md={3}>
-              <Link className='btn btn-dark my-3' to='/events'>
-                Current Events
-              </Link>
-            </Row>
+      {userInfo &&
+        (userInfo.role === 'Production_Manager' ||
+          userInfo.role === 'Services_Manager') && (
+          <>
             <br />
-            <Row md={3}>
-              <Link className='btn btn-dark my-3' to='/'>
-                Initiate Sub Team Tasks
-              </Link>
+            <Row>
+              <Row md={3}>
+                <Link className='btn btn-dark my-3' to='/events'>
+                  Current Events
+                </Link>
+              </Row>
+              <br />
+              <Row md={3}>
+                <Link className='btn btn-dark my-3' to='/events/subteam'>
+                  Initiate Sub Team Tasks
+                </Link>
+              </Row>
+              <br />
+              <Row md={3}>
+                <Link className='btn btn-dark my-3' to='/'>
+                  New Resource Request
+                </Link>
+              </Row>
+              <br />
+              <Row md={3}>
+                <Link className='btn btn-dark my-3' to='/'>
+                  Extra Budget Requests
+                </Link>
+              </Row>
+              <br />
+              <Row md={3}>
+                <Link className='btn btn-dark my-3' to='/'>
+                  Staff Schedule
+                </Link>
+              </Row>
             </Row>
-            <br />
-            <Row md={3}>
-              <Link className='btn btn-dark my-3' to='/'>
-                New Resource Request
-              </Link>
-            </Row>
-            <br />
-            <Row md={3}>
-              <Link className='btn btn-dark my-3' to='/'>
-                Extra Budget Requests
-              </Link>
-            </Row>
-            <br />
-            <Row md={3}>
-              <Link className='btn btn-dark my-3' to='/'>
-                Staff Schedule
-              </Link>
-            </Row>
-          </Row>
-        </>
-      )}
+          </>
+        )}
     </>
   )
 }

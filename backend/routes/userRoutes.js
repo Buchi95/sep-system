@@ -39,9 +39,9 @@ router.post(
 
 router.route('/profile').get(protect, getUserProfile)
 
-router.route('/:role').get(protect, getUsersByRole)
+router.route('/role/:role').get(protect, getUsersByRole)
 
-router.route('/:dpt').get(protect, getUsersByDpt)
+router.route('/dpt/:dpt').get(protect, getUsersByDpt)
 
 router.route('/').put(protect, assignTask)
 

@@ -6,6 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import {
   userLoginReducer,
   userDetailsReducer,
+  dptUsersReducer,
 } from './redux/reducers/userReducers'
 
 // event reducers
@@ -32,6 +33,8 @@ const reducer = combineReducers({
   // event creation
   createEvent: createEventReducer,
   getEveStatus: getEventStatusReducer,
+  // dpt users
+  dptUsers: dptUsersReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -49,6 +52,7 @@ const initialState = {
   getClient: { clientInfo: {} },
   createEvent: { eventInfo: {} },
   getEveStatus: { eventInfoByStatus: [] },
+  dptUsers: { dpUsers: [] },
 }
 
 const middleware = [thunk]

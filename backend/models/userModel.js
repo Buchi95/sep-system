@@ -40,6 +40,10 @@ const userSchema = mongoose.Schema(
         },
       },
     ],
+    subdepartment: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

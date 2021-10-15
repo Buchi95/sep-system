@@ -8,7 +8,7 @@ import { getEventStatus } from '../../redux/actions/eventFlowActions'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 
-const Events = ({ history, match }) => {
+const Events = ({ history }) => {
   const dispatch = useDispatch()
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -28,9 +28,9 @@ const Events = ({ history, match }) => {
     ) {
       history.push('/login')
     } else {
-      dispatch(getEventStatus())
+      dispatch(getEventStatus(0))
     }
-  }, [dispatch, history, userInfo, match])
+  }, [dispatch, history, userInfo])
 
   return (
     <>

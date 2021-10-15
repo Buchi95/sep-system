@@ -20,6 +20,7 @@ import EventSpecification from './screens/event/EventSpecification'
 // event planning screens
 import Events from './screens/eventPlanning/Events'
 import EventDetail from './screens/eventPlanning/EventDetail'
+import SubTeamTasks from './screens/eventPlanning/SubTeamTasks'
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
           />
           <Route path='/events' component={Events} exact />
           <Route path='/events/detail' component={EventDetail} exact />
+          <Route path='/events/subteam' component={SubTeamTasks} exact />
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>

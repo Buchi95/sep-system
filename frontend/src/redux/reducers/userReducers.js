@@ -7,6 +7,9 @@ import {
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_RESET,
+  DPT_USERS_REQUEST,
+  DPT_USERS_SUCCESS,
+  DPT_USERS_FAIL,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -34,6 +37,19 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
       return { loading: false, error: action.payload }
     case USER_DETAILS_RESET:
       return { user: {} }
+    default:
+      return state
+  }
+}
+
+export const dptUsersReducer = (state = { dpUsers: [] }, action) => {
+  switch (action.type) {
+    case DPT_USERS_REQUEST:
+      return { ...state, loading: true }
+    case DPT_USERS_SUCCESS:
+      return { loading: false, dpUsers: action.payload }
+    case DPT_USERS_FAIL:
+      return { loading: false, error: action.payload }
     default:
       return state
   }

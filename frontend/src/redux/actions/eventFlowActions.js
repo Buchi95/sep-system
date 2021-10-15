@@ -225,7 +225,7 @@ export const createEve =
     }
   }
 
-export const getEventStatus = () => async (dispatch, getState) => {
+export const getEventStatus = (eventStatus) => async (dispatch, getState) => {
   try {
     dispatch({
       type: EVENT_STATUS_REQUEST,
@@ -242,7 +242,10 @@ export const getEventStatus = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`/api/detailedevent/`, config)
+    const { data } =
+      eventStatus === 0
+        ? await axios.get(`/api/detailedevent/`, config)
+        : await axios.get(`/api/detailedevent/${eventStatus}`, config)
 
     dispatch({
       type: EVENT_STATUS_SUCCESS,

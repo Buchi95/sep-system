@@ -18,9 +18,9 @@ const importData = async () => {
   try {
     // wipe out db
     await User.deleteMany()
-    await Client.deleteMany()
-    await NewEventRequest.deleteMany()
-    await NewEvent.deleteMany()
+    // await Client.deleteMany()
+    // await NewEventRequest.deleteMany()
+    // await NewEvent.deleteMany()
 
     // insert users
     const createdUsers = await User.insertMany(users)
