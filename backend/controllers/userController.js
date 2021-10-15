@@ -29,6 +29,7 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       role: user.role,
       department: user.department,
+      tasks: user.tasks,
       token: generateToken(user._id),
     })
   } else {
@@ -72,6 +73,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       role: user.role,
       department: user.department,
+      tasks: user.tasks,
       token: generateToken(user._id),
     })
   } else {
@@ -95,6 +97,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       email: user.email,
       role: user.role,
       department: user.department,
+      tasks: user.tasks,
     })
   } else {
     res.status(404)
@@ -111,6 +114,60 @@ const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({})
 
   res.json(users)
+})
+
+/*
+ *   @desc   Get user profile by role
+ *   @route  GET /api/users/:role
+ *   @access Private
+ */
+const getUsersByRole = asyncHandler(async (req, res) => {
+  const users = await User.find({ role: req.params.role })
+
+  if (users) {
+    res.status(200).json(users)
+  } else {
+    res.status(404)
+    throw new Error('Users not found')
+  }
+})
+
+/*
+ *   @desc   Get user profile by department
+ *   @route  GET /api/users/:dpt
+ *   @access Private
+ */
+const getUsersByDpt = asyncHandler(async (req, res) => {
+  const users = await User.find({ department: req.params.dpt })
+
+  if (users) {
+    res.status(200).json(users)
+  } else {
+    res.status(404)
+    throw new Error('Users not found')
+  }
+})
+
+/*
+ *   @desc   Assign task to user
+ *   @route  PUT /api/users
+ *   @access Private
+ */
+const assignTask = asyncHandler(async (req, res) => {
+  const { description, priority, active } = req.body
+
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    user.tasks.push({ description, priority, active })
+
+    await user.save()
+
+    res.status(204).json(user) // updated 204
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
 })
 
 /*
@@ -131,4 +188,13 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, registerUser, getUserProfile, getUsers, deleteUser }
+export {
+  authUser,
+  registerUser,
+  getUserProfile,
+  getUsers,
+  getUsersByRole,
+  getUsersByDpt,
+  assignTask,
+  deleteUser,
+}

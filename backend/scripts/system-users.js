@@ -29,6 +29,20 @@ const users = [
     role: 'Customer_Service',
     department: 'Administration_Department',
   },
+  {
+    name: 'Jack',
+    email: 'jack@sep.se',
+    password: bcrypt.hashSync('pdm123', 10),
+    role: 'Production_Manager',
+    department: 'Production_Department',
+  },
+  {
+    name: 'Natalie',
+    email: 'natalie@sep.se',
+    password: bcrypt.hashSync('sdm123', 10),
+    role: 'Service_Manager',
+    department: 'Services_Department',
+  },
 ]
 
 export default users

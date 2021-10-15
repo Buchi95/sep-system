@@ -24,6 +24,22 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    tasks: [
+      {
+        description: {
+          type: String,
+          required: false,
+        },
+        priority: {
+          type: String,
+          required: false,
+        },
+        active: {
+          type: Boolean,
+          required: false,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

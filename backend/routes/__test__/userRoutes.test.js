@@ -193,3 +193,19 @@ describe('User Profile', () => {
     expect(response.body.currentUser).toEqual(undefined)
   })
 })
+
+describe('Assign task to User', () => {
+  it('responds with assigned task to user', async () => {
+    const { token, employee } = await global.getAuthToken()
+
+    const response = await request(app)
+      .put('/api/users')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        description: 'Simple Task',
+        priority: 'Medium',
+        active: true,
+      })
+      .expect(204)
+  })
+})
