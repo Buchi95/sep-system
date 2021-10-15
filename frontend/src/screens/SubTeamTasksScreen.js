@@ -2,10 +2,23 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
-
+//mport { createNewTask  } from '../redux/actions/tasksActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+/*
+const submitHandler = () => {
+  dispatch(
+    createTask(
+      reference,
+      description,
+      assign, 
+      priority
+    )
 
+
+  )
+}
+*/
 const SubTeamTasksScreen = ({ history }) => {
 
   return (
@@ -24,7 +37,7 @@ const SubTeamTasksScreen = ({ history }) => {
                     <Form.Label>Project Reference</Form.Label>
                     <Form.Control
                         type='rId'
-                        value={'projectReference'}
+                        value={'reference'}
                         placeholder='Project Reference'
                     />
                 </Form.Group>
@@ -32,7 +45,13 @@ const SubTeamTasksScreen = ({ history }) => {
             <Row style={{ marginTop: 20 }}  class='mb-2'>
                 <Form.Group as={Col} controlId="details">
                 <Form.Label>Task Description</Form.Label>
-                    <Form.Control as="textarea" rows={4} maxLength="100" placeholder='Task Description' />
+                    <Form.Control 
+                        as="textarea" 
+                        rows={4} 
+                        maxLength="100" 
+                        placeholder='Task Description' 
+                        value={'description'}
+                    />
                 </Form.Group>
             </Row>
             <Row style={{ marginTop: 20 }}  class='mb-2'>
@@ -41,7 +60,7 @@ const SubTeamTasksScreen = ({ history }) => {
                 <Form.Label>Assign Task To:</Form.Label>
                 <Form.Control
                   as='select'
-                  value={'select'}
+                  value={'assign'}
                 >
                   <option value='0'>Select Employee</option>
                   <option value='1'>Aksel</option>
@@ -55,7 +74,7 @@ const SubTeamTasksScreen = ({ history }) => {
                 <Form.Label>Priority</Form.Label>
                 <Form.Control
                   as='select'
-                  value={'select'}
+                  value={'priority'}
                 >
                   <option value='0'>Select Priority</option>
                   <option value='1'>Low</option>
@@ -69,7 +88,7 @@ const SubTeamTasksScreen = ({ history }) => {
               
             </Form>
             <div class='col text-center'>
-            <Button style={{ marginTop: 30 }} className='btn btn-dark'>Submit Event Details</Button>
+            <Button type='submit' style={{ marginTop: 30 }} className='btn btn-dark'>Submit Event Details</Button>
             </div>
           </Col>
         </Row>

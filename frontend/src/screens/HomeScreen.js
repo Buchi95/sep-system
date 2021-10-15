@@ -4,6 +4,7 @@ import ClientRequestDetails from './ClientRequestDetails'
 import RecruitmentRequestScreen from './RecruitmentRequestScreen'
 import MyTasksScreen from './MyTasksScreen'
 import ManagerTasksScreen from './ManagerTasksScreen'
+import SubTeamTasksScreen from './SubTeamTasksScreen'
 
 const HomeScreen = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin)
@@ -17,7 +18,8 @@ const HomeScreen = ({ history }) => {
 
   return (
     <>
-      <ManagerTasksScreen />
+      <SubTeamTasksScreen />
+
     </>
   )
 }

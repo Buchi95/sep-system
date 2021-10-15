@@ -22,6 +22,7 @@ const App = () => {
           <Route path='/profile' component={ProfileScreen} />
           <Route path='/' component={HomeScreen} exact />
           <Route path='/request' component={ClientRequestDetails} />
+          <Route path='/recruitment' component={ClientRequestDetails} />
         </Container>
       </main>
       <Footer />
