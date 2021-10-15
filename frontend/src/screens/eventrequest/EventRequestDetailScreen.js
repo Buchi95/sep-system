@@ -23,7 +23,12 @@ const EventRequestDetailScreen = ({ history, match }) => {
   const { loading, error, clientInfo } = getClient
 
   useEffect(() => {
-    if (!userInfo) {
+    if (
+      !userInfo ||
+      (userInfo.role !== 'Senior_Customer_Service_Officer' &&
+        userInfo.role !== 'Financial_Manager' &&
+        userInfo.role !== 'Administration_Manager')
+    ) {
       history.push('/login')
     }
 

@@ -30,7 +30,12 @@ const EventRequestReviewScreen = ({ history, match }) => {
   } = updateEventReqStatus
 
   useEffect(() => {
-    if (!userInfo) {
+    if (
+      !userInfo ||
+      (userInfo.role !== 'Senior_Customer_Service_Officer' &&
+        userInfo.role !== 'Financial_Manager' &&
+        userInfo.role !== 'Administration_Manager')
+    ) {
       history.push('/login')
     } else {
       dispatch(getEventRequestStatus(match.params.id))
@@ -135,15 +140,29 @@ const EventRequestReviewScreen = ({ history, match }) => {
                         'Under Review by AM'
                       ) : event.eventRequestStatus === 33 ? (
                         'Rejected by AM'
-                      ) : event.eventRequestStatus === 4 ? (
+                      ) : event.eventRequestStatus === 4 &&
+                        userInfo &&
+                        userInfo.role === 'Senior_Customer_Service_Officer' ? (
                         <Row>
                           <Col>Approved</Col>
                           <Col>
-                            <Button variant='success' className='btn-sm'>
-                              {'Create Event'}
-                            </Button>
+                            <Link
+                              to={{
+                                pathname: `/event/specification`,
+                                state: {
+                                  eventRequest: event,
+                                  client: event.client,
+                                },
+                              }}
+                            >
+                              <Button variant='success' className='btn-sm'>
+                                {'Create Event'}
+                              </Button>
+                            </Link>
                           </Col>
                         </Row>
+                      ) : event.eventRequestStatus === 4 ? (
+                        'Approved'
                       ) : event.eventRequestStatus === 5 ? (
                         'Event Created'
                       ) : event.eventRequestStatus === 0 ? (
@@ -186,6 +205,10 @@ const EventRequestReviewScreen = ({ history, match }) => {
                             <i className='fas fa-times-circle'></i>
                           </Button>
                         </>
+                      ) : event.eventRequestStatus === 4 ? (
+                        'Approved'
+                      ) : event.eventRequestStatus === 5 ? (
+                        'Event Created'
                       ) : (
                         'Processing...'
                       )}

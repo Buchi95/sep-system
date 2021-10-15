@@ -8,8 +8,12 @@ import {
   UPDATE_EVENT_REQUEST_STATUS_REQUEST,
   UPDATE_EVENT_REQUEST_STATUS_SUCCESS,
   UPDATE_EVENT_REQUEST_STATUS_FAIL,
+  EVENT_REQUEST,
+  EVENT_SUCCESS,
+  EVENT_FAIL,
 } from '../constants/eventFlowConstants'
 
+// request for event
 export const createEventRequestReducer = (state = {}, action) => {
   switch (action.type) {
     case CREATE_EVENT_REQUEST:
@@ -43,6 +47,20 @@ export const updateEventRequestStatusReducer = (state = {}, action) => {
     case UPDATE_EVENT_REQUEST_STATUS_SUCCESS:
       return { loading: false, updatedEventRequest: action.payload }
     case UPDATE_EVENT_REQUEST_STATUS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+// event creation after request is approved
+export const createEventReducer = (state = {}, action) => {
+  switch (action.type) {
+    case EVENT_REQUEST:
+      return { loading: true }
+    case EVENT_SUCCESS:
+      return { loading: false, success: true, eventInfo: action.payload }
+    case EVENT_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state
