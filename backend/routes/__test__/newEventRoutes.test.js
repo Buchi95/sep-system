@@ -48,6 +48,7 @@ describe('New Event', () => {
         it: 'to go over everything',
         other: 'no.',
       },
+      eventStatus: 1,
       employee: employee,
     }
 
@@ -98,6 +99,7 @@ describe('New Event', () => {
         it: 'to go over everything',
         other: 'no.',
       },
+      eventStatus: 1,
       employee: employee,
     }
 

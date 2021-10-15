@@ -28,6 +28,7 @@ router
         .withMessage(
           'Expected budget must be 1000 sek or greater than 1000 sek'
         ),
+      body('eventStatus').notEmpty().withMessage('Event Status must be valid'),
     ],
     createNewEvent
   )

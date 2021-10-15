@@ -16,7 +16,7 @@ const createNewEvent = asyncHandler(async (req, res) => {
   }
 
   const {
-    clientName,
+    _clientName,
     clientContact,
     eventType,
     description,
@@ -25,12 +25,13 @@ const createNewEvent = asyncHandler(async (req, res) => {
     numOfAttendees,
     plannedBudget,
     preferences,
+    eventStatus,
     employee,
   } = req.body
 
-  const clientExists = await Client.findOne({clientContact})
+  const clientExists = await Client.findOne({ clientContact })
 
-  if  (clientExists) {
+  if (clientExists) {
     const newEvent = await NewEvent.create({
       client: clientExists._id,
       eventType,
@@ -40,6 +41,7 @@ const createNewEvent = asyncHandler(async (req, res) => {
       numOfAttendees,
       plannedBudget,
       preferences,
+      eventStatus,
       employee,
     })
 
@@ -53,18 +55,17 @@ const createNewEvent = asyncHandler(async (req, res) => {
         numOfAttendees: newEvent.numOfAttendees,
         plannedBudget: newEvent.plannedBudget,
         preferences: newEvent.preferences,
+        eventStatus: newEvent.eventStatus,
         employee: newEvent.employee,
       })
-      } else {
-        res.status(400)
-        throw new Error('Invalid user data')
-      }
     } else {
       res.status(400)
-      throw new Error('Invalid client data')
+      throw new Error('Invalid user data')
     }
+  } else {
+    res.status(400)
+    throw new Error('Invalid client data')
+  }
 })
 
-export {
-  createNewEvent
-}
+export { createNewEvent }

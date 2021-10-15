@@ -8,10 +8,14 @@ import {
   UPDATE_EVENT_REQUEST_STATUS_REQUEST,
   UPDATE_EVENT_REQUEST_STATUS_SUCCESS,
   UPDATE_EVENT_REQUEST_STATUS_FAIL,
+  EVENT_REQUEST,
+  EVENT_SUCCESS,
+  EVENT_FAIL,
 } from '../constants/eventFlowConstants'
 
 import axios from 'axios'
 
+// // request for event
 export const createEventReq =
   (
     clientName,
@@ -145,6 +149,71 @@ export const updateEventRequestStatus =
     } catch (error) {
       dispatch({
         type: UPDATE_EVENT_REQUEST_STATUS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }
+
+// event creation after request is approved
+export const createEve =
+  (
+    clientName,
+    clientContact,
+    eventType,
+    description,
+    from,
+    to,
+    numOfAttendees,
+    plannedBudget,
+    preferences,
+    eventStatus,
+    employee
+  ) =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: EVENT_REQUEST,
+      })
+
+      const {
+        userLogin: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.post(
+        '/api/detailedevent',
+        {
+          clientName,
+          clientContact,
+          eventType,
+          description,
+          from,
+          to,
+          numOfAttendees,
+          plannedBudget,
+          preferences,
+          eventStatus,
+          employee,
+        },
+        config
+      )
+
+      dispatch({
+        type: EVENT_SUCCESS,
+        payload: data,
+      })
+    } catch (error) {
+      dispatch({
+        type: EVENT_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

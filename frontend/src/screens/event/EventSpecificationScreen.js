@@ -8,14 +8,16 @@ import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 
 import { getClientInfo } from '../../redux/actions/clientActions'
+import {
+  createEve,
+  updateEventRequestStatus,
+} from '../../redux/actions/eventFlowActions'
 
 const EventSpecificationScreen = ({ history }) => {
   const location = useLocation()
 
   const { eventRequest } = location.state ? location.state : {}
   const { client } = location.state ? location.state : {}
-
-  console.log(eventRequest)
 
   // form errors
   const [errors, setErrors] = useState({})
@@ -28,6 +30,10 @@ const EventSpecificationScreen = ({ history }) => {
 
   const getClient = useSelector((state) => state.getClient)
   const { loading: loadingC, error: errorC, clientInfo } = getClient
+
+  const createEvent = useSelector((state) => state.createEvent)
+
+  const { loading: loadingEve, error: errorEve, success } = createEvent
 
   const [clientName, setClientName] = useState(
     clientInfo && clientInfo.clientName
@@ -45,7 +51,7 @@ const EventSpecificationScreen = ({ history }) => {
   const [numOfAttendees, setNumOfAttendees] = useState(
     eventRequest.numOfAttendees
   )
-  const [expectedBudget, setExpectedBudget] = useState(
+  const [plannedBudget, setPlannedBudget] = useState(
     eventRequest.expectedBudget
   )
   const [decorations, setDecorations] = useState('')
@@ -65,19 +71,12 @@ const EventSpecificationScreen = ({ history }) => {
       dispatch(getClientInfo(client))
     }
 
-    // if (success) {
-    //   alert('Event Created Successfully!')
-    //   // reset form
-    //   setClientName('')
-    //   setClientContact('')
-    //   setEventType('')
-    //   setFrom('')
-    //   setTo('')
-    //   setNumOfAttendees(0)
-    //   setExpectedBudget(0)
-    //   setPreferences([])
-    // }
-  }, [history, userInfo, redirect, client, dispatch])
+    if (success) {
+      alert('Event Created Successfully!')
+      dispatch(updateEventRequestStatus(eventRequest._id, 5))
+      history.push('/')
+    }
+  }, [history, userInfo, redirect, client, dispatch, success])
 
   const findFormErrors = () => {
     const newErrors = {}
@@ -95,8 +94,8 @@ const EventSpecificationScreen = ({ history }) => {
     if (!to || to === '') newErrors.to = 'Please select to date for event!'
     if (!numOfAttendees || numOfAttendees < 10)
       newErrors.numOfAttendees = 'The attendees must be greater then 10'
-    if (!expectedBudget || expectedBudget < 1000)
-      newErrors.expectedBudget =
+    if (!plannedBudget || plannedBudget < 1000)
+      newErrors.plannedBudget =
         'The expected budget must be greater then 1000sek'
 
     return newErrors
@@ -114,6 +113,29 @@ const EventSpecificationScreen = ({ history }) => {
       if (from > to) {
         alert('From Date cannot be after To Date')
       } else {
+        dispatch(
+          createEve(
+            clientName,
+            clientContact,
+            eventType,
+            description,
+            from,
+            to,
+            numOfAttendees,
+            plannedBudget,
+            {
+              decorations: decorations,
+              food_drinks: food,
+              filming_photos: filming,
+              music: music,
+              artwork: art,
+              it: it,
+              other: others,
+            },
+            1,
+            userInfo._id
+          )
+        )
       }
     }
   }
@@ -127,8 +149,10 @@ const EventSpecificationScreen = ({ history }) => {
       >
         Go Back
       </Link>
-      {(error || errorC) && <Message variant='danger'>{error}</Message>}
-      {(loading || loadingC) && <Loader />}
+      {(error || errorC || errorEve) && (
+        <Message variant='danger'>{error}</Message>
+      )}
+      {(loading || loadingC || loadingEve) && <Loader />}
       <Container>
         <Row>
           <Col md={{ span: 8, offset: 2 }}>
@@ -225,13 +249,13 @@ const EventSpecificationScreen = ({ history }) => {
                       <Form.Label>Planned Budget</Form.Label>
                       <Form.Control
                         type='text'
-                        value={expectedBudget}
+                        value={plannedBudget}
                         placeholder='Budget'
-                        onChange={(e) => setExpectedBudget(e.target.value)}
-                        isInvalid={!!errors.expectedBudget}
+                        onChange={(e) => setPlannedBudget(e.target.value)}
+                        isInvalid={!!errors.plannedBudget}
                       />
                       <FormControl.Feedback as='div' type='invalid'>
-                        {errors.expectedBudget}
+                        {errors.plannedBudget}
                       </FormControl.Feedback>
                     </Form.Group>
                   </Row>
@@ -274,6 +298,7 @@ const EventSpecificationScreen = ({ history }) => {
                       as='textarea'
                       row='2'
                       value={decorations}
+                      onChange={(e) => setDecorations(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
                 </Col>
@@ -284,6 +309,7 @@ const EventSpecificationScreen = ({ history }) => {
                       as='textarea'
                       row='2'
                       value={food}
+                      onChange={(e) => setFood(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
                 </Col>
@@ -297,6 +323,7 @@ const EventSpecificationScreen = ({ history }) => {
                       as='textarea'
                       row='2'
                       value={filming}
+                      onChange={(e) => setFilming(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
                 </Col>
@@ -307,6 +334,7 @@ const EventSpecificationScreen = ({ history }) => {
                       as='textarea'
                       row='2'
                       value={music}
+                      onChange={(e) => setMusic(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
                 </Col>
@@ -320,6 +348,7 @@ const EventSpecificationScreen = ({ history }) => {
                       as='textarea'
                       row='2'
                       value={art}
+                      onChange={(e) => setArt(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
                 </Col>
@@ -330,6 +359,7 @@ const EventSpecificationScreen = ({ history }) => {
                       as='textarea'
                       row='2'
                       value={it}
+                      onChange={(e) => setIt(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
                 </Col>
@@ -341,6 +371,7 @@ const EventSpecificationScreen = ({ history }) => {
                   as='textarea'
                   row='2'
                   value={others}
+                  onChange={(e) => setOthers(e.target.value)}
                 ></Form.Control>
               </Form.Group>
 

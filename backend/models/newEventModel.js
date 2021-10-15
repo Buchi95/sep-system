@@ -1,5 +1,12 @@
 import mongoose from 'mongoose'
 
+const EventStatus = Object.freeze({
+  CREATED: 1,
+  SUB_TEAM_TASKS_DIVIDED: 2,
+  SUB_TEAM_RESPONDED: 3,
+  EVENT_UNDER_FINANCIAL_MANAGER_REVIEW: 3,
+})
+
 const newEventSchema = mongoose.Schema(
   {
     client: {
@@ -62,6 +69,12 @@ const newEventSchema = mongoose.Schema(
         required: false,
       },
     },
+    eventStatus: {
+      type: Number,
+      enum: Object.values(EventStatus),
+      required: true,
+      default: 1,
+    },
     employee: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -72,6 +85,10 @@ const newEventSchema = mongoose.Schema(
     timestamps: true,
   }
 )
+
+Object.assign(newEventSchema.statics, {
+  EventStatus,
+})
 
 const NewEvent = mongoose.model('NewEvent', newEventSchema)
 
