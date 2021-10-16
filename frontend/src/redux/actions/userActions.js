@@ -135,7 +135,7 @@ export const getDptUsers = (dpt) => async (dispatch, getState) => {
 
 // assign task to employee
 export const assignTaskToEmployee =
-  ({ employee, description, priority, active, projectRef }) =>
+  ({ employee, subject, description, priority, active, projectRef }) =>
   async (dispatch, getState) => {
     try {
       dispatch({
@@ -155,7 +155,7 @@ export const assignTaskToEmployee =
 
       const { data } = await axios.put(
         `/api/users`,
-        { employee, description, priority, active, projectRef },
+        { employee, subject, description, priority, active, projectRef },
         config
       )
 

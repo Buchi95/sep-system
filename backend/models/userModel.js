@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema(
     },
     tasks: [
       {
+        subject: {
+          type: String,
+          required: false,
+        },
         description: {
           type: String,
           required: false,

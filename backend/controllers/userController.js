@@ -159,12 +159,13 @@ const getUsersByDpt = asyncHandler(async (req, res) => {
  *   @access Private
  */
 const assignTask = asyncHandler(async (req, res) => {
-  const { employee, description, priority, active, projectRef } = req.body
+  const { employee, subject, description, priority, active, projectRef } =
+    req.body
 
   const user = await User.findById(employee)
 
   if (user) {
-    user.tasks.push({ description, priority, active, projectRef })
+    user.tasks.push({ subject, description, priority, active, projectRef })
 
     await user.save()
 

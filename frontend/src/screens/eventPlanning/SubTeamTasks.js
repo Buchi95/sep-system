@@ -17,6 +17,7 @@ const SubTeamTasks = ({ history }) => {
   const [key, setKey] = useState('Decorations')
   const [servKey, setServKey] = useState('Food')
   const [projectRef, setProjectRef] = useState('')
+  const [subject, setSubject] = useState('')
   const [description, setDescription] = useState('')
   const [priority, setPriority] = useState('')
   const [employee, setEmployee] = useState('')
@@ -68,6 +69,7 @@ const SubTeamTasks = ({ history }) => {
   const findFormErrors = () => {
     const newErrors = {}
 
+    if (!subject || subject === '') newErrors.subject = 'cannot be blank'
     if (!projectRef || projectRef === '')
       newErrors.projectRef = 'cannot be blank!'
     if (!description || description === '')
@@ -90,6 +92,7 @@ const SubTeamTasks = ({ history }) => {
       dispatch(
         assignTaskToEmployee({
           employee,
+          subject,
           description,
           priority,
           active: true,
@@ -159,12 +162,12 @@ const SubTeamTasks = ({ history }) => {
                     border: '2px solid',
                     paddingRight: 30,
                     paddingLeft: 30,
-                    paddingTop: 20,
+                    paddingTop: 10,
                   }}
                 >
                   <h3>Create Subteam Task</h3>
                   <Form onSubmit={submitHandler}>
-                    <Row style={{ marginTop: 20 }} className='mb-2'>
+                    <Row style={{ marginTop: 5 }} className='mb-2'>
                       <Form.Group as={Col} controlId='rId'>
                         <Form.Label>Project Reference</Form.Label>
                         <Form.Control
@@ -187,7 +190,23 @@ const SubTeamTasks = ({ history }) => {
                         </FormControl.Feedback>
                       </Form.Group>
                     </Row>
-                    <Row style={{ marginTop: 20 }} className='mb-2'>
+                    <Row style={{ marginTop: 5 }} className='mb-2'>
+                      <Form.Group as={Col} controlId='subject'>
+                        <Form.Label>Task Subject</Form.Label>
+                        <Form.Control
+                          type='text'
+                          value={subject}
+                          placeholder='Task Subject'
+                          onChange={(e) => setSubject(e.target.value)}
+                          isInvalid={!!errors.subject}
+                        />
+                        <FormControl.Feedback as='div' type='invalid'>
+                          {errors.subject}
+                        </FormControl.Feedback>
+                      </Form.Group>
+                    </Row>
+
+                    <Row style={{ marginTop: 5 }} className='mb-2'>
                       <Form.Group as={Col} controlId='details'>
                         <Form.Label>Task Description</Form.Label>
                         <Form.Control
@@ -204,7 +223,7 @@ const SubTeamTasks = ({ history }) => {
                         </FormControl.Feedback>
                       </Form.Group>
                     </Row>
-                    <Row style={{ marginTop: 20 }} className='mb-2'>
+                    <Row style={{ marginTop: 5 }} className='mb-2'>
                       <Col>
                         <Form.Group controlId='rating'>
                           <Form.Label>Assign Task To:</Form.Label>
