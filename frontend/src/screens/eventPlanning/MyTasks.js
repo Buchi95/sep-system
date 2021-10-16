@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Button, Table } from 'react-bootstrap'
@@ -62,9 +62,18 @@ const MyTasks = ({ history }) => {
                           : 'Natalie'}
                       </td>
                       <td>
-                        <Button variant='primary' className='btn-sm'>
-                          <i className='fas fa-info-circle'></i>
-                        </Button>
+                        <Link
+                          to={{
+                            pathname: `/tasks/edit`,
+                            state: {
+                              task: task,
+                            },
+                          }}
+                        >
+                          <Button variant='primary' className='btn-sm'>
+                            <i className='fas fa-info-circle'></i>
+                          </Button>
+                        </Link>
                       </td>
                     </tr>
                   ))}
