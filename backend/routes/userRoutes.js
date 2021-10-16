@@ -9,6 +9,7 @@ import {
   getUsersByRole,
   getUsersByDpt,
   assignTask,
+  editTask,
 } from '../controllers/userController.js'
 
 import { protect } from '../middleware/authMiddleware.js'
@@ -44,5 +45,7 @@ router.route('/profile').get(protect, getUserProfile)
 router.route('/role/:role').get(protect, getUsersByRole)
 
 router.route('/dpt/:dpt').get(protect, getUsersByDpt)
+
+router.route('/task').put(editTask)
 
 export default router

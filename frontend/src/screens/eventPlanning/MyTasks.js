@@ -34,7 +34,11 @@ const MyTasks = ({ history }) => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <>
+          <br />
+          <br />
+          <Message variant='danger'>{'Not Found'}</Message>
+        </>
       ) : (
         <>
           <Col md={{ span: 8, offset: 2 }}>

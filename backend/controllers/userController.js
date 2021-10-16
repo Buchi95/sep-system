@@ -177,6 +177,32 @@ const assignTask = asyncHandler(async (req, res) => {
 })
 
 /*
+ *   @desc   Edit task of User
+ *   @route  PUT /api/users/task/
+ *   @access Private
+ */
+const editTask = asyncHandler(async (req, res) => {
+  const { employee, taskid, extra } = req.body
+
+  const user = await User.findById(employee)
+
+  if (user) {
+    const task = user.tasks.find(
+      (task) => task._id.toString() === taskid.toString()
+    )
+
+    task.extra = extra
+
+    await user.save()
+
+    res.status(204).json({ message: 'Extra resource added' }) // updated 204
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
+/*
  *   @desc   Delete user
  *   @route  DELETE /api/users/:id
  *   @access Private
@@ -202,5 +228,6 @@ export {
   getUsersByRole,
   getUsersByDpt,
   assignTask,
+  editTask,
   deleteUser,
 }

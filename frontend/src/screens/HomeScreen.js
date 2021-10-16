@@ -83,6 +83,12 @@ const HomeScreen = ({ history }) => {
               <br />
               <Row md={3}>
                 <Link className='btn btn-dark my-3' to='/'>
+                  Responses from Team Members
+                </Link>
+              </Row>
+              <br />
+              <Row md={3}>
+                <Link className='btn btn-dark my-3' to='/'>
                   New Resource Request
                 </Link>
               </Row>
@@ -90,12 +96,6 @@ const HomeScreen = ({ history }) => {
               <Row md={3}>
                 <Link className='btn btn-dark my-3' to='/'>
                   Extra Budget Requests
-                </Link>
-              </Row>
-              <br />
-              <Row md={3}>
-                <Link className='btn btn-dark my-3' to='/'>
-                  Staff Schedule
                 </Link>
               </Row>
             </Row>
