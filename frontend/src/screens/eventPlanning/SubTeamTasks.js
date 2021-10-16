@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Row, Col, Button, Form, Tabs, Tab } from 'react-bootstrap'
 import FormControl from 'react-bootstrap/FormControl'
 
-import { getEventStatus } from '../../redux/actions/eventFlowActions'
 import {
   getDptUsers,
   assignTaskToEmployee,
@@ -14,9 +13,12 @@ import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 
 const SubTeamTasks = ({ history }) => {
+  const location = useLocation()
+
+  const { event } = location.state ? location.state : {}
+
   const [key, setKey] = useState('Decorations')
   const [servKey, setServKey] = useState('Food')
-  const [projectRef, setProjectRef] = useState('')
   const [subject, setSubject] = useState('')
   const [description, setDescription] = useState('')
   const [priority, setPriority] = useState('')
@@ -29,9 +31,6 @@ const SubTeamTasks = ({ history }) => {
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-
-  const getEveStatus = useSelector((state) => state.getEveStatus)
-  const { error, loading, eventInfoByStatus: events } = getEveStatus
 
   const dptUsers = useSelector((state) => state.dptUsers)
   const { error: errorDpt, loading: loadingDpt, dpUsers } = dptUsers
@@ -47,7 +46,6 @@ const SubTeamTasks = ({ history }) => {
     ) {
       history.push('/login')
     } else {
-      dispatch(getEventStatus(1))
       if (userInfo.role === 'Production_Manager') {
         dispatch(getDptUsers('Production_Department'))
       }
@@ -59,7 +57,6 @@ const SubTeamTasks = ({ history }) => {
 
     if (success) {
       alert('Task assigned successfully!')
-      setProjectRef('')
       setDescription('')
       setEmployee('')
       setPriority('')
@@ -70,8 +67,6 @@ const SubTeamTasks = ({ history }) => {
     const newErrors = {}
 
     if (!subject || subject === '') newErrors.subject = 'cannot be blank'
-    if (!projectRef || projectRef === '')
-      newErrors.projectRef = 'cannot be blank!'
     if (!description || description === '')
       newErrors.description = 'cannot be blank!'
     if (!priority || priority === '') newErrors.priority = 'cannot be blank'
@@ -96,7 +91,7 @@ const SubTeamTasks = ({ history }) => {
           description,
           priority,
           active: true,
-          projectRef,
+          projectRef: event._id,
         })
       )
     }
@@ -107,15 +102,22 @@ const SubTeamTasks = ({ history }) => {
       <Link
         style={{ position: 'absolute', marginTop: 0 }}
         className='btn btn-primary my-1'
-        to={`/`}
+        to={{
+          pathname: `/events/subtasks`,
+          state: {
+            event: event,
+          },
+        }}
       >
         Go Back
       </Link>
 
-      {loading || loadingDpt ? (
+      {loadingDpt || loadingTask ? (
         <Loader />
-      ) : error || errorDpt || errorTask ? (
-        <Message variant='danger'>{error}</Message>
+      ) : errorDpt || errorTask ? (
+        <Message variant='danger'>
+          {errorDpt ? errorDpt : errorTask ? errorTask : 'Error'}
+        </Message>
       ) : (
         <>
           <Container>
@@ -169,25 +171,14 @@ const SubTeamTasks = ({ history }) => {
                   <Form onSubmit={submitHandler}>
                     <Row style={{ marginTop: 5 }} className='mb-2'>
                       <Form.Group as={Col} controlId='rId'>
-                        <Form.Label>Project Reference</Form.Label>
+                        <Form.Label>Project</Form.Label>
                         <Form.Control
-                          as='select'
-                          value={projectRef}
-                          onChange={(e) => setProjectRef(e.target.value)}
+                          disabled
+                          value={
+                            event && `${event.eventType} - ${event.description}`
+                          }
                           placeholder='Project Reference'
-                          isInvalid={!!errors.projectRef}
-                        >
-                          <option value='0'>Select Project</option>
-                          {events.map((event) => (
-                            <option
-                              key={event._id}
-                              value={event._id}
-                            >{`${event._id} - ${event.eventType}`}</option>
-                          ))}
-                        </Form.Control>
-                        <FormControl.Feedback as='div' type='invalid'>
-                          {errors.projectRef}
-                        </FormControl.Feedback>
+                        />
                       </Form.Group>
                     </Row>
                     <Row style={{ marginTop: 5 }} className='mb-2'>

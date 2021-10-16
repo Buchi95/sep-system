@@ -10,6 +10,7 @@ import {
   getUsersByDpt,
   assignTask,
   editTask,
+  getAllTasksForEvent,
 } from '../controllers/userController.js'
 
 import { protect } from '../middleware/authMiddleware.js'
@@ -46,6 +47,8 @@ router.route('/role/:role').get(protect, getUsersByRole)
 
 router.route('/dpt/:dpt').get(protect, getUsersByDpt)
 
-router.route('/task').put(editTask)
+router.route('/task').put(protect, editTask)
+
+router.route('/tasks/all/:id').get(getAllTasksForEvent)
 
 export default router

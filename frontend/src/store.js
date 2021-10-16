@@ -8,6 +8,7 @@ import {
   userDetailsReducer,
   dptUsersReducer,
   assignTaskReducer,
+  getAllTasksReducer,
 } from './redux/reducers/userReducers'
 
 // event reducers
@@ -19,6 +20,7 @@ import {
   // event create
   createEventReducer,
   getEventStatusReducer,
+  getEventByIdReducer,
 } from './redux/reducers/eventFlowReducers'
 
 // client reducer
@@ -34,10 +36,12 @@ const reducer = combineReducers({
   // event creation
   createEvent: createEventReducer,
   getEveStatus: getEventStatusReducer,
+  getEventById: getEventByIdReducer,
   // dpt users
   dptUsers: dptUsersReducer,
   // assign task
   assignTask: assignTaskReducer,
+  getAllTasks: getAllTasksReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -55,8 +59,10 @@ const initialState = {
   getClient: { clientInfo: {} },
   createEvent: { eventInfo: {} },
   getEveStatus: { eventInfoByStatus: [] },
+  getEventById: { eventbyId: {} },
   dptUsers: { dpUsers: [] },
   assignTask: { message: {} },
+  getAllTasks: { tasks: [] },
 }
 
 const middleware = [thunk]

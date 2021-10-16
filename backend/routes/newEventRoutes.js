@@ -8,6 +8,7 @@ import {
   getEvent,
   getAllEvents,
   updateEventStatus,
+  getEventById,
 } from '../controllers/eventController.js'
 
 router
@@ -50,5 +51,7 @@ router
   )
 
 router.route('/:eventStatus').get(protect, getEvent)
+
+router.route('/eve/:eveid').get(getEventById)
 
 export default router

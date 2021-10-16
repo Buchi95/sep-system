@@ -87,6 +87,22 @@ const getEvent = asyncHandler(async (req, res) => {
 })
 
 /*
+ *   @desc   Get an event on the basis of status
+ *   @route  GET /api/detailedevent/eve/:eveid
+ *   @access Private
+ */
+const getEventById = asyncHandler(async (req, res) => {
+  const event = await NewEvent.findById(req.params.eveid)
+
+  if (event) {
+    res.status(200).json(event)
+  } else {
+    res.status(404)
+    throw new Error('Event not found')
+  }
+})
+
+/*
  *   @desc   Get all events
  *   @route  GET /api/detailedevent/
  *   @access Private
@@ -121,4 +137,10 @@ const updateEventStatus = asyncHandler(async (req, res) => {
   }
 })
 
-export { createNewEvent, getEvent, getAllEvents, updateEventStatus }
+export {
+  createNewEvent,
+  getEvent,
+  getAllEvents,
+  updateEventStatus,
+  getEventById,
+}

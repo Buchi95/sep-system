@@ -203,6 +203,32 @@ const editTask = asyncHandler(async (req, res) => {
 })
 
 /*
+ *   @desc   Get all tasks for an event
+ *   @route  Get /api/users/tasks/all/:id
+ *   @access Private
+ */
+const getAllTasksForEvent = asyncHandler(async (req, res) => {
+  const projectRef = req.params.id
+
+  const allUsers = await User.find({}).select('-password')
+
+  const tasks = []
+
+  allUsers.map((user) => {
+    user.tasks.map((task) => {
+      if (task) {
+        if (task.projectRef.toString() === projectRef.toString()) {
+          task = { task, user: user.name }
+          tasks.push(task)
+        }
+      }
+    })
+  })
+
+  res.status(200).json(tasks)
+})
+
+/*
  *   @desc   Delete user
  *   @route  DELETE /api/users/:id
  *   @access Private
@@ -229,5 +255,6 @@ export {
   getUsersByDpt,
   assignTask,
   editTask,
+  getAllTasksForEvent,
   deleteUser,
 }

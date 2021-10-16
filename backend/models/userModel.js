@@ -1,6 +1,11 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 
+// feedback status = 0 = nothing yet
+// feedback status = 1 = fine  = green
+// feedback status = 2 = extra required = red
+// feedback status = 22 = extra satisfied
+
 const taskSchema = mongoose.Schema(
   {
     subject: {
@@ -22,6 +27,15 @@ const taskSchema = mongoose.Schema(
     extra: {
       type: String,
       required: false,
+    },
+    planned: {
+      type: String,
+      required: false,
+    },
+    feedback: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     projectRef: {
       type: mongoose.Schema.Types.ObjectId,

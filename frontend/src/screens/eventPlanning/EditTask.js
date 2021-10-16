@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
-import FormControl from 'react-bootstrap/FormControl'
+
+import { getEveById } from '../../redux/actions/eventFlowActions'
 
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
@@ -19,12 +20,18 @@ const EditTask = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const getEventById = useSelector((state) => state.getEventById)
+  const { error, loading, eventbyId: event } = getEventById
+
   useEffect(() => {
     if (!userInfo || userInfo.subdepartment.length === 0) {
       history.push('/login')
     } else {
+      if (task) {
+        dispatch(getEveById(task.projectRef))
+      }
     }
-  }, [dispatch, history, userInfo])
+  }, [dispatch, history, userInfo, task])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -40,10 +47,10 @@ const EditTask = ({ history }) => {
         Go Back
       </Link>
 
-      {false ? (
+      {loading ? (
         <Loader />
-      ) : false ? (
-        <Message variant='danger'>{'hello'}</Message>
+      ) : error ? (
+        <Message variant='danger'>{error}</Message>
       ) : (
         <>
           <Container>
@@ -62,10 +69,13 @@ const EditTask = ({ history }) => {
                     <Row>
                       <Col style={{ marginTop: 5 }} className='mb-2'>
                         <Form.Group as={Col} controlId='rId'>
-                          <Form.Label>Project Reference</Form.Label>
+                          <Form.Label>Project Description</Form.Label>
                           <Form.Control
                             disabled
-                            value={task && task.projectRef}
+                            value={
+                              event &&
+                              `${event.description} - ${event.eventType}`
+                            }
                             placeholder='Project Reference'
                           ></Form.Control>
                         </Form.Group>

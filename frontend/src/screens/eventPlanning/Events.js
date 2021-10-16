@@ -58,6 +58,7 @@ const Events = ({ history }) => {
                 <th>TO</th>
                 <th>STATUS</th>
                 <th>DETAIL VIEW</th>
+                <th>SUB TASKS</th>
               </tr>
             </thead>
             <tbody>
@@ -94,6 +95,22 @@ const Events = ({ history }) => {
                       >
                         <Button variant='primary' className='btn-sm'>
                           <i className='fas fa-info-circle'></i>
+                        </Button>
+                      </Link>
+                    </td>
+
+                    <td>
+                      <Link
+                        to={{
+                          pathname: `/events/subtasks`,
+                          state: {
+                            event: event,
+                            client: event.client,
+                          },
+                        }}
+                      >
+                        <Button variant='primary' className='btn-sm'>
+                          <i className='fas fa-tasks'></i>
                         </Button>
                       </Link>
                     </td>

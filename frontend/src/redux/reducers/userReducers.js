@@ -13,6 +13,9 @@ import {
   ASSIGN_TASK_REQUEST,
   ASSIGN_TASK_SUCCESS,
   ASSIGN_TASK_FAIL,
+  GET_ALL_TASKS_FOR_EVENT_REQUEST,
+  GET_ALL_TASKS_FOR_EVENT_SUCCESS,
+  GET_ALL_TASKS_FOR_EVENT_FAIL,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -65,6 +68,19 @@ export const assignTaskReducer = (state = {}, action) => {
     case ASSIGN_TASK_SUCCESS:
       return { loading: false, success: true, message: action.payload }
     case ASSIGN_TASK_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const getAllTasksReducer = (state = { tasks: [] }, action) => {
+  switch (action.type) {
+    case GET_ALL_TASKS_FOR_EVENT_REQUEST:
+      return { loading: true }
+    case GET_ALL_TASKS_FOR_EVENT_SUCCESS:
+      return { loading: false, tasks: action.payload }
+    case GET_ALL_TASKS_FOR_EVENT_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

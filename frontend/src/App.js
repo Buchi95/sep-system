@@ -23,6 +23,7 @@ import EventDetail from './screens/eventPlanning/EventDetail'
 import SubTeamTasks from './screens/eventPlanning/SubTeamTasks'
 import MyTasks from './screens/eventPlanning/MyTasks'
 import EditTask from './screens/eventPlanning/EditTask'
+import SubTasks from './screens/eventPlanning/SubTasks'
 
 const App = () => {
   return (
@@ -46,7 +47,12 @@ const App = () => {
           />
           <Route path='/events' component={Events} exact />
           <Route path='/events/detail' component={EventDetail} exact />
-          <Route path='/events/subteam' component={SubTeamTasks} exact />
+          <Route path='/events/subtasks' component={SubTasks} exact />
+          <Route
+            path='/events/subtasks/create'
+            component={SubTeamTasks}
+            exact
+          />
           <Route path='/tasks' component={MyTasks} exact />
           <Route path='/tasks/edit' component={EditTask} exact />
           <Route path='/' component={HomeScreen} exact />
