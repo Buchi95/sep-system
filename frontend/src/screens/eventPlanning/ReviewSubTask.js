@@ -3,9 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Container } from 'react-bootstrap'
 
-import Loader from '../../components/Loader'
-import Message from '../../components/Message'
-
 const ReviewSubTask = ({ history }) => {
   const location = useLocation()
 
