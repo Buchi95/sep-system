@@ -37,7 +37,7 @@ const SubTasks = ({ history }) => {
         dispatch(getAllTasksforEvent(event._id, 'Services_Department'))
       }
     }
-  }, [dispatch, history, userInfo])
+  }, [dispatch, history, userInfo, event])
 
   return (
     <>

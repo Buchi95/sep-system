@@ -5,6 +5,7 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import FormControl from 'react-bootstrap/FormControl'
 
 import { getEventStatus } from '../../redux/actions/eventFlowActions'
+import { addExtraBudgetRequest } from '../../redux/actions/requestActions'
 
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
@@ -28,6 +29,9 @@ const FinancialRequest = ({ history }) => {
 
   const getEveStatus = useSelector((state) => state.getEveStatus)
   const { loading, error, eventInfoByStatus: events } = getEveStatus
+
+  const extraBudget = useSelector((state) => state.extraBudget)
+  const { loading: loadingB, error: errorB } = extraBudget
 
   useEffect(() => {
     if (
@@ -61,6 +65,18 @@ const FinancialRequest = ({ history }) => {
       setErrors(newErrors)
     } else {
       setErrors({})
+      dispatch(
+        addExtraBudgetRequest({
+          requestingDepartment: dpt,
+          projectRef: project,
+          requiredAmount: amount,
+          reason: reason,
+          status: 1,
+        })
+      )
+
+      alert('Request created successfully')
+      history.push('/')
     }
   }
 
@@ -70,10 +86,12 @@ const FinancialRequest = ({ history }) => {
         Go Back
       </Link>
 
-      {loading ? (
+      {loading || loadingB ? (
         <Loader />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
+      ) : error || errorB ? (
+        <Message variant='danger'>
+          {error ? error : errorB ? errorB : 'Error'}
+        </Message>
       ) : (
         <>
           <Container>

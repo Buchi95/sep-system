@@ -5,6 +5,7 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import FormControl from 'react-bootstrap/FormControl'
 
 import { getEventStatus } from '../../redux/actions/eventFlowActions'
+import { addExtraStaffRequest } from '../../redux/actions/requestActions'
 
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
@@ -21,7 +22,10 @@ const RecruitmentRequestScreen = ({ history }) => {
   const getEveStatus = useSelector((state) => state.getEveStatus)
   const { loading, error, eventInfoByStatus: events } = getEveStatus
 
-  const [contract, setContract] = useState('part_time')
+  const extraStaff = useSelector((state) => state.extraStaff)
+  const { loading: loadingS, error: errorS } = extraStaff
+
+  const [contract, setContract] = useState('Part_Time')
   const [dpt, setDepartment] = useState(
     userInfo.role === 'Production_Manager' ? 'Production' : 'Services'
   )
@@ -64,6 +68,21 @@ const RecruitmentRequestScreen = ({ history }) => {
       setErrors(newErrors)
     } else {
       setErrors({})
+
+      dispatch(
+        addExtraStaffRequest({
+          requestingDepartment: dpt,
+          projectRef: project,
+          contract: contract,
+          experience: exp,
+          jobTitle: jobTitle,
+          jobDescription: description,
+          status: 1,
+        })
+      )
+
+      alert('Request created successfully')
+      history.push('/')
     }
   }
 
@@ -73,10 +92,12 @@ const RecruitmentRequestScreen = ({ history }) => {
         Go Back
       </Link>
 
-      {loading ? (
+      {loading || loadingS ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant='danger'>
+          {error ? error : errorS ? errorS : 'Error'}
+        </Message>
       ) : (
         <>
           <Container>
@@ -84,7 +105,7 @@ const RecruitmentRequestScreen = ({ history }) => {
               <Col md={{ span: 8, offset: 2 }}>
                 <h1>Recruitment Request</h1>
                 <Form onSubmit={submitHandler}>
-                  <Row class='mb-2'>
+                  <Row className='mb-2'>
                     <Col>
                       <Form.Label>Contract Time </Form.Label>
                       <Form.Group as={Col} controlId='details'>
@@ -93,7 +114,7 @@ const RecruitmentRequestScreen = ({ history }) => {
                           type='radio'
                           name='contract'
                           label='Part Time'
-                          value={contract}
+                          value={'Part_Time'}
                           onChange={(e) => setContract(e.target.value)}
                         />
                         <Form.Check
@@ -101,7 +122,7 @@ const RecruitmentRequestScreen = ({ history }) => {
                           type='radio'
                           name='contract'
                           label='Full Time'
-                          value={contract}
+                          value={'Full_Time'}
                           onChange={(e) => setContract(e.target.value)}
                         />
                       </Form.Group>
