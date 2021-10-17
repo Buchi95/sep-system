@@ -25,15 +25,30 @@ import {
 } from './redux/reducers/eventFlowReducers'
 
 // client reducer
-import { getClientReducer } from './redux/reducers/clientReducers'
+import {
+  getClientReducer,
+  getAllClientsReducer,
+} from './redux/reducers/clientReducers'
+
+// requests reducer
+import {
+  extraBudgetReducer,
+  extraStaffReducer,
+  getExtraBudgetsReducer,
+  getExtraStaffsReducer,
+} from './redux/reducers/requestReducers'
 
 const reducer = combineReducers({
+  // login
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,
+  // event rquest
   createEventRequest: createEventRequestReducer,
   getEventReqStatus: getEventRequestStatusReducer,
   updateEventRequestStatus: updateEventRequestStatusReducer,
+  // client
   getClient: getClientReducer,
+  getAllClients: getAllClientsReducer,
   // event creation
   createEvent: createEventReducer,
   getEveStatus: getEventStatusReducer,
@@ -44,6 +59,11 @@ const reducer = combineReducers({
   assignTask: assignTaskReducer,
   getAllTasks: getAllTasksReducer,
   editTask: editTaskReducer,
+  // requests
+  extraBudget: extraBudgetReducer,
+  extraStaff: extraStaffReducer,
+  getExtraBudgets: getExtraBudgetsReducer,
+  getExtraStaffs: getExtraStaffsReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -55,17 +75,28 @@ const eventRequestInfoFromStorage = localStorage.getItem('eventRequestInfo')
   : null
 
 const initialState = {
+  // login
   userLogin: { userInfo: userInfoFromStorage },
+  // event request
   createEventRequest: { eventRequestInfo: eventRequestInfoFromStorage },
   getEventReqStatus: { eventRequestInfoByStatus: [] },
+  // client
   getClient: { clientInfo: {} },
+  getAllClients: { allClients: [] },
+  // event creation
   createEvent: { eventInfo: {} },
   getEveStatus: { eventInfoByStatus: [] },
   getEventById: { eventbyId: {} },
   dptUsers: { dpUsers: [] },
+  // task division
   assignTask: { message: {} },
   getAllTasks: { tasks: [] },
   editTask: { message: {} },
+  // requests
+  extraBudget: { budget: {} },
+  extraStaff: { staff: {} },
+  getExtraBudgets: { budgets: [] },
+  getExtraStaffs: { staffs: [] },
 }
 
 const middleware = [thunk]

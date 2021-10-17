@@ -179,6 +179,29 @@ const users = [
     department: 'Services_Department',
     subdepartment: 'Catering',
   },
+  // HR
+  {
+    name: 'Simon',
+    email: 'simon@sep.se',
+    password: bcrypt.hashSync('shrm123', 10),
+    role: 'Senior_HR_Manager',
+    department: 'Administration_Department',
+  },
+  {
+    name: 'Maria',
+    email: 'maria@sep.se',
+    password: bcrypt.hashSync('maria123', 10),
+    role: 'HR_Assitant',
+    department: 'Administration_Department',
+  },
+  // marketing
+  {
+    name: 'David',
+    email: 'david@sep.se',
+    password: bcrypt.hashSync('mo123', 10),
+    role: 'Marketing_Officer',
+    department: 'Administration_Department',
+  },
 ]
 
 export default users
