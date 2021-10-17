@@ -52,9 +52,29 @@ const HomeScreen = ({ history }) => {
       )}
 
       {userInfo && userInfo.role === 'Financial_Manager' && (
-        <Link className='btn btn-dark my-3' to='/event/requests/2'>
-          Event Requests Review
-        </Link>
+        <>
+          <Row md={3}>
+            <Link className='btn btn-dark my-3' to='/event/requests/2'>
+              Event Requests Review
+            </Link>
+          </Row>
+
+          <Row md={3}>
+            <Link className='btn btn-dark my-3' to='/requests/budget'>
+              Financial Requests
+            </Link>
+          </Row>
+        </>
+      )}
+
+      {userInfo && userInfo.role === 'Senior_HR_Manager' && (
+        <>
+          <Row md={3}>
+            <Link className='btn btn-dark my-3' to='/requests/staff'>
+              Extra Resource Requests
+            </Link>
+          </Row>
+        </>
       )}
 
       {userInfo && userInfo.role === 'Administration_Manager' && (

@@ -16,7 +16,7 @@ import { protect } from '../middleware/authMiddleware.js'
 router
   .route('/budget')
   .post(protect, addBudgetRequest)
-  .get(protect, getAllBudgetRequests)
+  .get(getAllBudgetRequests)
   .put(protect, updateBudgetRequest)
 
 router

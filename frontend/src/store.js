@@ -34,6 +34,8 @@ import {
 import {
   extraBudgetReducer,
   extraStaffReducer,
+  getExtraBudgetsReducer,
+  getExtraStaffsReducer,
 } from './redux/reducers/requestReducers'
 
 const reducer = combineReducers({
@@ -60,6 +62,8 @@ const reducer = combineReducers({
   // requests
   extraBudget: extraBudgetReducer,
   extraStaff: extraStaffReducer,
+  getExtraBudgets: getExtraBudgetsReducer,
+  getExtraStaffs: getExtraStaffsReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -91,6 +95,8 @@ const initialState = {
   // requests
   extraBudget: { budget: {} },
   extraStaff: { staff: {} },
+  getExtraBudgets: { budgets: [] },
+  getExtraStaffs: { staffs: [] },
 }
 
 const middleware = [thunk]

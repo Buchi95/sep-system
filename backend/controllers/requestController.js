@@ -3,6 +3,7 @@ import { validationResult } from 'express-validator'
 
 import BudgetRequest from '../models/budgetRequestModel.js'
 import StaffRequest from '../models/staffRequestModel.js'
+import NewEvent from '../models/newEventModel.js'
 
 /*
  *   @desc   Add new request for budget
@@ -73,6 +74,12 @@ const addResourceRequest = asyncHandler(async (req, res) => {
   }
 })
 
+const eventData = async (id) => {
+  const event = await NewEvent.findById(id)
+
+  return event
+}
+
 /*
  *   @desc   get all budget requests
  *   @route  GET /api/request/budget
@@ -81,7 +88,17 @@ const addResourceRequest = asyncHandler(async (req, res) => {
 const getAllBudgetRequests = asyncHandler(async (req, res) => {
   const allBudgetRequests = await BudgetRequest.find({})
 
-  res.status(200).json(allBudgetRequests)
+  let requests = []
+
+  await Promise.all(
+    allBudgetRequests.map(async (request) => {
+      const eventData = await NewEvent.findById(request.projectRef.toString())
+      request = { request, event: eventData }
+      requests.push(request)
+    })
+  )
+
+  res.status(200).json(requests)
 })
 
 /*
@@ -92,7 +109,17 @@ const getAllBudgetRequests = asyncHandler(async (req, res) => {
 const getAllResourceRequests = asyncHandler(async (req, res) => {
   const allResourceRequests = await StaffRequest.find({})
 
-  res.status(200).json(allResourceRequests)
+  let requests = []
+
+  await Promise.all(
+    allResourceRequests.map(async (request) => {
+      const eventData = await NewEvent.findById(request.projectRef.toString())
+      request = { request, event: eventData }
+      requests.push(request)
+    })
+  )
+
+  res.status(200).json(requests)
 })
 
 /*

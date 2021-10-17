@@ -27,6 +27,8 @@ import ReviewSubTask from './screens/eventPlanning/ReviewSubTask'
 // requests screen
 import FinancialRequest from './screens/resources/FinancialRequest'
 import RecruitmentRequestScreen from './screens/resources/RecruitmentRequest'
+import ViewFinancialRequests from './screens/resources/ViewFinancialRequests'
+import ViewStaffRequests from './screens/resources/ViewStaffRequests'
 
 const App = () => {
   return (
@@ -69,6 +71,12 @@ const App = () => {
             component={RecruitmentRequestScreen}
             exact
           />
+          <Route
+            path='/requests/budget'
+            component={ViewFinancialRequests}
+            exact
+          />
+          <Route path='/requests/staff' component={ViewStaffRequests} exact />
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>
