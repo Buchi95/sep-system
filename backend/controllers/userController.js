@@ -218,7 +218,7 @@ const getAllTasksForEvent = asyncHandler(async (req, res) => {
   const tasks = []
 
   allUsers.map((user) => {
-    if (user.role.toString() === dpt.toString()) {
+    if (user.department.toString() === dpt.toString()) {
       user.tasks.map((task) => {
         if (task) {
           if (task.projectRef.toString() === projectRef.toString()) {

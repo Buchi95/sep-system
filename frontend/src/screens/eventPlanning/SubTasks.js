@@ -126,9 +126,10 @@ const SubTasks = ({ history }) => {
                     <td>
                       <Link
                         to={{
-                          pathname: `events/subtasks/review`,
+                          pathname: `/events/subtasks/review`,
                           state: {
                             task: task,
+                            event: event,
                           },
                         }}
                       >

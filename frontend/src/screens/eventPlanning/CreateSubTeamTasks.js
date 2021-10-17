@@ -12,7 +12,7 @@ import {
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 
-const SubTeamTasks = ({ history }) => {
+const CreateSubTeamTasks = ({ history }) => {
   const location = useLocation()
 
   const { event } = location.state ? location.state : {}
@@ -292,7 +292,7 @@ const SubTeamTasks = ({ history }) => {
   )
 }
 
-export default SubTeamTasks
+export default CreateSubTeamTasks
 
 /*
 createdAt: "2021-10-15T20:07:05.288Z"
