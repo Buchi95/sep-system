@@ -13,7 +13,8 @@ import newEventRequestRoutes from './routes/newEventRequestRoutes.js'
 import clientRoutes from './routes/clientRoutes.js'
 // route for new event
 import newEventRoutes from './routes/newEventRoutes.js'
-
+// request routes
+import requestRoutes from './routes/requestRoutes.js'
 
 const app = express()
 
@@ -37,6 +38,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/event', newEventRequestRoutes)
 app.use('/api/client', clientRoutes)
 app.use('/api/detailedevent', newEventRoutes)
+app.use('/api/request', requestRoutes)
 
 // adding errormiddlewares
 app.use(notFound)
