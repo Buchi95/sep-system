@@ -198,13 +198,62 @@ describe('Assign task to User', () => {
   it('responds with assigned task to user', async () => {
     const { token, employee } = await global.getAuthToken()
 
+    const eventRequest = {
+      clientName: 'clientName',
+      clientContact: 'clientContact',
+      eventType: 'CELEBRATION',
+      from: Date.now(),
+      to: Date.now(),
+      numOfAttendees: 20,
+      expectedBudget: 1000,
+      preferences: ['DECORATIONS', 'PARTIES'],
+      eventRequestStatus: 1,
+      employee,
+    }
+
+    await request(app)
+      .post('/api/event/request')
+      .set('Authorization', 'Bearer ' + token)
+      .send(eventRequest)
+      .expect(201)
+
+    const event = {
+      clientName: 'clientName',
+      clientContact: 'clientContact',
+      eventType: 'CELEBRATION',
+      description: 'event',
+      from: Date.now(),
+      to: Date.now(),
+      numOfAttendees: 20,
+      plannedBudget: 1000,
+      preferences: {
+        decorations: 'Hello',
+        food_drinks: 'its me',
+        filming_photos: 'i was wondering',
+        music: 'if after all these years',
+        artwork: 'you want to meet',
+        it: 'to go over everything',
+        other: 'no.',
+      },
+      eventStatus: 1,
+      employee: employee,
+    }
+
+    const eventRes = await request(app)
+      .post('/api/detailedevent/')
+      .set('Authorization', 'Bearer ' + token)
+      .send(event)
+      .expect(201)
+
     const response = await request(app)
       .put('/api/users')
       .set('Authorization', 'Bearer ' + token)
       .send({
+        employee: employee,
         description: 'Simple Task',
         priority: 'Medium',
         active: true,
+        projectRef: eventRes.body._id,
       })
       .expect(204)
   })

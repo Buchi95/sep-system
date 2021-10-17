@@ -76,7 +76,7 @@ const EventSpecification = ({ history }) => {
       dispatch(updateEventRequestStatus(eventRequest._id, 5))
       history.push('/')
     }
-  }, [history, userInfo, redirect, client, dispatch, success])
+  }, [history, userInfo, redirect, client, dispatch, success, eventRequest])
 
   const findFormErrors = () => {
     const newErrors = {}

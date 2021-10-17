@@ -14,6 +14,9 @@ import {
   EVENT_STATUS_REQUEST,
   EVENT_STATUS_SUCCESS,
   EVENT_STATUS_FAIL,
+  EVENT_BY_ID_REQUEST,
+  EVENT_BY_ID_SUCCESS,
+  EVENT_BY_ID_FAIL,
 } from '../constants/eventFlowConstants'
 
 // request for event
@@ -77,6 +80,19 @@ export const getEventStatusReducer = (state = {}, action) => {
     case EVENT_STATUS_SUCCESS:
       return { loading: false, eventInfoByStatus: action.payload }
     case EVENT_STATUS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const getEventByIdReducer = (state = {}, action) => {
+  switch (action.type) {
+    case EVENT_BY_ID_REQUEST:
+      return { loading: true }
+    case EVENT_BY_ID_SUCCESS:
+      return { loading: false, eventbyId: action.payload }
+    case EVENT_BY_ID_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

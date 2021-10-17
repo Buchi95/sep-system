@@ -14,6 +14,9 @@ import {
   EVENT_STATUS_REQUEST,
   EVENT_STATUS_SUCCESS,
   EVENT_STATUS_FAIL,
+  EVENT_BY_ID_REQUEST,
+  EVENT_BY_ID_SUCCESS,
+  EVENT_BY_ID_FAIL,
 } from '../constants/eventFlowConstants'
 
 import axios from 'axios'
@@ -254,6 +257,40 @@ export const getEventStatus = (eventStatus) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: EVENT_STATUS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const getEveById = (eveid) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: EVENT_BY_ID_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.get(`/api/detailedevent/eve/${eveid}`, config)
+
+    dispatch({
+      type: EVENT_BY_ID_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: EVENT_BY_ID_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

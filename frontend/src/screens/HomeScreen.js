@@ -17,7 +17,11 @@ const HomeScreen = ({ history }) => {
   return (
     <>
       <h1>Home</h1>
-      <h4>{`${userInfo && userInfo.department.replaceAll('_', ' ')}`}</h4>
+      <h4>{`${userInfo && userInfo.department.replaceAll('_', ' ')} - ${
+        userInfo && userInfo.subdepartment.length > 0
+          ? userInfo.subdepartment.replaceAll('_', ' ')
+          : ''
+      }`}</h4>
       {userInfo && userInfo.role === 'Customer_Service' && (
         <>
           <br />
@@ -70,13 +74,6 @@ const HomeScreen = ({ history }) => {
                   Current Events
                 </Link>
               </Row>
-              <br />
-              <Row md={3}>
-                <Link className='btn btn-dark my-3' to='/events/subteam'>
-                  Initiate Sub Team Tasks
-                </Link>
-              </Row>
-              <br />
               <Row md={3}>
                 <Link className='btn btn-dark my-3' to='/'>
                   New Resource Request
@@ -88,10 +85,19 @@ const HomeScreen = ({ history }) => {
                   Extra Budget Requests
                 </Link>
               </Row>
-              <br />
+            </Row>
+          </>
+        )}
+
+      {userInfo &&
+        userInfo.department === 'Production_Department' &&
+        userInfo.subdepartment.length > 0 && (
+          <>
+            <br />
+            <Row>
               <Row md={3}>
-                <Link className='btn btn-dark my-3' to='/'>
-                  Staff Schedule
+                <Link className='btn btn-dark my-3' to='/tasks'>
+                  My Tasks
                 </Link>
               </Row>
             </Row>

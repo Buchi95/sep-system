@@ -12,7 +12,6 @@ const ProfileScreen = ({ history }) => {
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('')
   const [dpt, setDpt] = useState('')
-  const [message, setMessage] = useState(null)
 
   const dispatch = useDispatch()
 
@@ -48,7 +47,6 @@ const ProfileScreen = ({ history }) => {
     <Row>
       <Col md={3}>
         <h2>User Profile</h2>
-        {message && <Message variant='danger'>{message}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
         {loading && <Loader />}
         <Button

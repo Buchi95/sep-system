@@ -10,6 +10,15 @@ import {
   DPT_USERS_REQUEST,
   DPT_USERS_SUCCESS,
   DPT_USERS_FAIL,
+  ASSIGN_TASK_REQUEST,
+  ASSIGN_TASK_SUCCESS,
+  ASSIGN_TASK_FAIL,
+  GET_ALL_TASKS_FOR_EVENT_REQUEST,
+  GET_ALL_TASKS_FOR_EVENT_SUCCESS,
+  GET_ALL_TASKS_FOR_EVENT_FAIL,
+  EDIT_TASK_REQUEST,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_FAIL,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -49,6 +58,45 @@ export const dptUsersReducer = (state = { dpUsers: [] }, action) => {
     case DPT_USERS_SUCCESS:
       return { loading: false, dpUsers: action.payload }
     case DPT_USERS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const assignTaskReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ASSIGN_TASK_REQUEST:
+      return { loading: true }
+    case ASSIGN_TASK_SUCCESS:
+      return { loading: false, success: true, message: action.payload }
+    case ASSIGN_TASK_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const getAllTasksReducer = (state = { tasks: [] }, action) => {
+  switch (action.type) {
+    case GET_ALL_TASKS_FOR_EVENT_REQUEST:
+      return { loading: true }
+    case GET_ALL_TASKS_FOR_EVENT_SUCCESS:
+      return { loading: false, tasks: action.payload }
+    case GET_ALL_TASKS_FOR_EVENT_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const editTaskReducer = (state = {}, action) => {
+  switch (action.type) {
+    case EDIT_TASK_REQUEST:
+      return { loading: true }
+    case EDIT_TASK_SUCCESS:
+      return { loading: false, success: true, message: action.payload }
+    case EDIT_TASK_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

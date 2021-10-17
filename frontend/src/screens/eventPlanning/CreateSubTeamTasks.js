@@ -1,32 +1,42 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Row, Col, Button, Form, Tabs, Tab } from 'react-bootstrap'
+import FormControl from 'react-bootstrap/FormControl'
 
-import { getEventStatus } from '../../redux/actions/eventFlowActions'
-import { getDptUsers } from '../../redux/actions/userActions'
+import {
+  getDptUsers,
+  assignTaskToEmployee,
+} from '../../redux/actions/userActions'
 
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 
-const SubTeamTasks = ({ history, match }) => {
+const CreateSubTeamTasks = ({ history }) => {
+  const location = useLocation()
+
+  const { event } = location.state ? location.state : {}
+
   const [key, setKey] = useState('Decorations')
   const [servKey, setServKey] = useState('Food')
-  const [projectRef, setProjectRef] = useState('')
+  const [subject, setSubject] = useState('')
   const [description, setDescription] = useState('')
   const [priority, setPriority] = useState('')
   const [employee, setEmployee] = useState('')
+
+  // form errors
+  const [errors, setErrors] = useState({})
 
   const dispatch = useDispatch()
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  const getEveStatus = useSelector((state) => state.getEveStatus)
-  const { error, loading, eventInfoByStatus: events } = getEveStatus
-
   const dptUsers = useSelector((state) => state.dptUsers)
   const { error: errorDpt, loading: loadingDpt, dpUsers } = dptUsers
+
+  const assignTask = useSelector((state) => state.assignTask)
+  const { error: errorTask, loading: loadingTask, success } = assignTask
 
   useEffect(() => {
     if (
@@ -36,7 +46,6 @@ const SubTeamTasks = ({ history, match }) => {
     ) {
       history.push('/login')
     } else {
-      dispatch(getEventStatus(1))
       if (userInfo.role === 'Production_Manager') {
         dispatch(getDptUsers('Production_Department'))
       }
@@ -45,22 +54,70 @@ const SubTeamTasks = ({ history, match }) => {
         dispatch(getDptUsers('Services_Department'))
       }
     }
-  }, [dispatch, history, userInfo])
+
+    if (success) {
+      alert('Task assigned successfully!')
+      setDescription('')
+      setEmployee('')
+      setPriority('')
+    }
+  }, [dispatch, history, userInfo, success])
+
+  const findFormErrors = () => {
+    const newErrors = {}
+
+    if (!subject || subject === '') newErrors.subject = 'cannot be blank'
+    if (!description || description === '')
+      newErrors.description = 'cannot be blank!'
+    if (!priority || priority === '') newErrors.priority = 'cannot be blank'
+    if (!employee || employee === '') newErrors.employee = 'cannot be blank'
+
+    return newErrors
+  }
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+
+    const newErrors = findFormErrors()
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+    } else {
+      setErrors({})
+      dispatch(
+        assignTaskToEmployee({
+          employee,
+          subject,
+          description,
+          priority,
+          active: true,
+          projectRef: event._id,
+        })
+      )
+    }
+  }
 
   return (
     <>
       <Link
         style={{ position: 'absolute', marginTop: 0 }}
         className='btn btn-primary my-1'
-        to={`/`}
+        to={{
+          pathname: `/events/subtasks`,
+          state: {
+            event: event,
+          },
+        }}
       >
         Go Back
       </Link>
 
-      {loading || loadingDpt ? (
+      {loadingDpt || loadingTask ? (
         <Loader />
-      ) : error || errorDpt ? (
-        <Message variant='danger'>{error}</Message>
+      ) : errorDpt || errorTask ? (
+        <Message variant='danger'>
+          {errorDpt ? errorDpt : errorTask ? errorTask : 'Error'}
+        </Message>
       ) : (
         <>
           <Container>
@@ -107,30 +164,40 @@ const SubTeamTasks = ({ history, match }) => {
                     border: '2px solid',
                     paddingRight: 30,
                     paddingLeft: 30,
-                    paddingTop: 20,
+                    paddingTop: 10,
                   }}
                 >
                   <h3>Create Subteam Task</h3>
-                  <Form>
-                    <Row style={{ marginTop: 20 }} className='mb-2'>
+                  <Form onSubmit={submitHandler}>
+                    <Row style={{ marginTop: 5 }} className='mb-2'>
                       <Form.Group as={Col} controlId='rId'>
-                        <Form.Label>Project Reference</Form.Label>
+                        <Form.Label>Project</Form.Label>
                         <Form.Control
-                          as='select'
-                          value={projectRef}
-                          onChange={(e) => setProjectRef(e.target.value)}
+                          disabled
+                          value={
+                            event && `${event.eventType} - ${event.description}`
+                          }
                           placeholder='Project Reference'
-                        >
-                          {events.map((event) => (
-                            <option
-                              key={event._id}
-                              value={event._id}
-                            >{`${event._id} - ${event.eventType}`}</option>
-                          ))}
-                        </Form.Control>
+                        />
                       </Form.Group>
                     </Row>
-                    <Row style={{ marginTop: 20 }} className='mb-2'>
+                    <Row style={{ marginTop: 5 }} className='mb-2'>
+                      <Form.Group as={Col} controlId='subject'>
+                        <Form.Label>Task Subject</Form.Label>
+                        <Form.Control
+                          type='text'
+                          value={subject}
+                          placeholder='Task Subject'
+                          onChange={(e) => setSubject(e.target.value)}
+                          isInvalid={!!errors.subject}
+                        />
+                        <FormControl.Feedback as='div' type='invalid'>
+                          {errors.subject}
+                        </FormControl.Feedback>
+                      </Form.Group>
+                    </Row>
+
+                    <Row style={{ marginTop: 5 }} className='mb-2'>
                       <Form.Group as={Col} controlId='details'>
                         <Form.Label>Task Description</Form.Label>
                         <Form.Control
@@ -140,10 +207,14 @@ const SubTeamTasks = ({ history, match }) => {
                           placeholder='Task Description'
                           value={description}
                           onChange={(e) => setDescription(e.target.value)}
+                          isInvalid={!!errors.description}
                         />
+                        <FormControl.Feedback as='div' type='invalid'>
+                          {errors.description}
+                        </FormControl.Feedback>
                       </Form.Group>
                     </Row>
-                    <Row style={{ marginTop: 20 }} className='mb-2'>
+                    <Row style={{ marginTop: 5 }} className='mb-2'>
                       <Col>
                         <Form.Group controlId='rating'>
                           <Form.Label>Assign Task To:</Form.Label>
@@ -151,7 +222,9 @@ const SubTeamTasks = ({ history, match }) => {
                             as='select'
                             value={employee}
                             onChange={(e) => setEmployee(e.target.value)}
+                            isInvalid={!!errors.employee}
                           >
+                            <option value='0'>Select Employee</option>
                             {dpUsers.map((user) =>
                               userInfo.role === 'Production_Manager' &&
                               user.department === 'Production_Department' &&
@@ -172,6 +245,9 @@ const SubTeamTasks = ({ history, match }) => {
                               )
                             )}
                           </Form.Control>
+                          <FormControl.Feedback as='div' type='invalid'>
+                            {errors.employee}
+                          </FormControl.Feedback>
                         </Form.Group>
                       </Col>
                       <Col>
@@ -181,25 +257,31 @@ const SubTeamTasks = ({ history, match }) => {
                             as='select'
                             value={priority}
                             onChange={(e) => setPriority(e.target.value)}
+                            isInvalid={!!errors.priority}
                           >
                             <option value='0'>Select Priority</option>
                             <option value='Low'>Low</option>
                             <option value='Medium'>Medium</option>
                             <option value='High'>High</option>
                           </Form.Control>
+                          <FormControl.Feedback as='div' type='invalid'>
+                            {errors.priority}
+                          </FormControl.Feedback>
                         </Form.Group>
                       </Col>
                     </Row>
-                  </Form>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button
-                      type='submit'
-                      style={{ marginTop: 10, marginBottom: 10 }}
-                      className='btn btn-dark ml-auto'
+                    <div
+                      style={{ display: 'flex', justifyContent: 'flex-end' }}
                     >
-                      Send Task
-                    </Button>
-                  </div>
+                      <Button
+                        type='submit'
+                        style={{ marginTop: 10, marginBottom: 10 }}
+                        className='btn btn-dark ml-auto'
+                      >
+                        Send Task
+                      </Button>
+                    </div>
+                  </Form>
                 </Col>
               </Row>
             </Container>
@@ -210,7 +292,7 @@ const SubTeamTasks = ({ history, match }) => {
   )
 }
 
-export default SubTeamTasks
+export default CreateSubTeamTasks
 
 /*
 createdAt: "2021-10-15T20:07:05.288Z"

@@ -15,12 +15,15 @@ import ProfileScreen from './screens/ProfileScreen'
 import EventRequest from './screens/eventrequest/EventRequest'
 import EventRequests from './screens/eventrequest/EventRequests'
 import RequestDetail from './screens/eventrequest/RequestDetail'
-// event creation screen
-import EventSpecification from './screens/event/EventSpecification'
-// event planning screens
+// event creation screen and event planning screens
+import EventSpecification from './screens/eventPlanning/EventSpecification'
 import Events from './screens/eventPlanning/Events'
 import EventDetail from './screens/eventPlanning/EventDetail'
-import SubTeamTasks from './screens/eventPlanning/SubTeamTasks'
+import SubTasks from './screens/eventPlanning/SubTasks'
+import CreateSubTeamTasks from './screens/eventPlanning/CreateSubTeamTasks'
+import MyTasks from './screens/eventPlanning/MyTasks'
+import EditTask from './screens/eventPlanning/EditTask'
+import ReviewSubTask from './screens/eventPlanning/ReviewSubTask'
 
 const App = () => {
   return (
@@ -44,7 +47,19 @@ const App = () => {
           />
           <Route path='/events' component={Events} exact />
           <Route path='/events/detail' component={EventDetail} exact />
-          <Route path='/events/subteam' component={SubTeamTasks} exact />
+          <Route path='/events/subtasks' component={SubTasks} exact />
+          <Route
+            path='/events/subtasks/create'
+            component={CreateSubTeamTasks}
+            exact
+          />
+          <Route
+            path='/events/subtasks/review'
+            component={ReviewSubTask}
+            exact
+          />
+          <Route path='/tasks' component={MyTasks} exact />
+          <Route path='/tasks/edit' component={EditTask} exact />
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>
