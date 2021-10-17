@@ -39,7 +39,7 @@ const FinancialRequest = ({ history }) => {
     } else {
       dispatch(getEventStatus(0))
     }
-  }, [history, userInfo])
+  }, [dispatch, history, userInfo])
 
   const findFormErrors = () => {
     const newErrors = {}
