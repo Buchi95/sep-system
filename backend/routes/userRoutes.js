@@ -49,6 +49,6 @@ router.route('/dpt/:dpt').get(protect, getUsersByDpt)
 
 router.route('/task').put(protect, editTask)
 
-router.route('/tasks/all/:id').get(getAllTasksForEvent)
+router.route('/tasks/all/:id&:dpt').get(protect, getAllTasksForEvent)
 
 export default router

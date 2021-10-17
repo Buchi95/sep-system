@@ -47,9 +47,10 @@ const MyTasks = ({ history }) => {
               <thead>
                 <tr>
                   <th>TASK SUBJECT</th>
-                  <th>Priority</th>
-                  <th>Sender</th>
-                  <th>Details</th>
+                  <th>PRIORITY</th>
+                  <th>SENDER</th>
+                  <th>DETAILS</th>
+                  <th>PROGRESS</th>
                 </tr>
               </thead>
               <tbody>
@@ -78,6 +79,19 @@ const MyTasks = ({ history }) => {
                             <i className='fas fa-info-circle'></i>
                           </Button>
                         </Link>
+                      </td>
+                      <td>
+                        <i
+                          style={{
+                            color:
+                              task.active === true
+                                ? 'pink'
+                                : task.active === false
+                                ? 'green'
+                                : 'grey',
+                          }}
+                          className='fas fa-circle fa-2x fa-align-justify'
+                        ></i>
                       </td>
                     </tr>
                   ))}

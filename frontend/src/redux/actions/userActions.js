@@ -16,6 +16,9 @@ import {
   GET_ALL_TASKS_FOR_EVENT_REQUEST,
   GET_ALL_TASKS_FOR_EVENT_SUCCESS,
   GET_ALL_TASKS_FOR_EVENT_FAIL,
+  EDIT_TASK_REQUEST,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_FAIL,
 } from '../constants/userConstants'
 
 import axios from 'axios'
@@ -177,8 +180,8 @@ export const assignTaskToEmployee =
     }
   }
 
-// assign task to employee
-export const getAllTasksforEvent = (id) => async (dispatch, getState) => {
+// get all tasks for event
+export const getAllTasksforEvent = (id, dpt) => async (dispatch, getState) => {
   try {
     dispatch({
       type: GET_ALL_TASKS_FOR_EVENT_REQUEST,
@@ -195,7 +198,10 @@ export const getAllTasksforEvent = (id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`/api/users/tasks/all/${id}`, config)
+    const { data } = await axios.get(
+      `/api/users/tasks/all/${id}&${dpt}`,
+      config
+    )
 
     dispatch({
       type: GET_ALL_TASKS_FOR_EVENT_SUCCESS,
@@ -211,3 +217,44 @@ export const getAllTasksforEvent = (id) => async (dispatch, getState) => {
     })
   }
 }
+
+// edit task to employee
+export const editTaskEmployee =
+  ({ employee, taskid, extra, planned, feedback }) =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: EDIT_TASK_REQUEST,
+      })
+
+      const {
+        userLogin: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.put(
+        `/api/users/task/`,
+        { employee, taskid, extra, planned, feedback },
+        config
+      )
+
+      dispatch({
+        type: EDIT_TASK_SUCCESS,
+        payload: data,
+      })
+    } catch (error) {
+      dispatch({
+        type: EDIT_TASK_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }

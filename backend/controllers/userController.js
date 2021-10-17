@@ -182,7 +182,7 @@ const assignTask = asyncHandler(async (req, res) => {
  *   @access Private
  */
 const editTask = asyncHandler(async (req, res) => {
-  const { employee, taskid, extra } = req.body
+  const { employee, taskid, extra, planned, feedback } = req.body
 
   const user = await User.findById(employee)
 
@@ -192,10 +192,12 @@ const editTask = asyncHandler(async (req, res) => {
     )
 
     task.extra = extra
+    task.planned = planned
+    task.feedback = feedback
 
     await user.save()
 
-    res.status(204).json({ message: 'Extra resource added' }) // updated 204
+    res.status(204).json({ message: 'task edited success' }) // updated 204
   } else {
     res.status(404)
     throw new Error('User not found')
@@ -204,25 +206,28 @@ const editTask = asyncHandler(async (req, res) => {
 
 /*
  *   @desc   Get all tasks for an event
- *   @route  Get /api/users/tasks/all/:id
+ *   @route  return /api/users/tasks/all/:id&:dpt
  *   @access Private
  */
 const getAllTasksForEvent = asyncHandler(async (req, res) => {
   const projectRef = req.params.id
+  const dpt = req.params.dpt
 
   const allUsers = await User.find({}).select('-password')
 
   const tasks = []
 
   allUsers.map((user) => {
-    user.tasks.map((task) => {
-      if (task) {
-        if (task.projectRef.toString() === projectRef.toString()) {
-          task = { task, user: user.name }
-          tasks.push(task)
+    if (user.role.toString() === dpt.toString()) {
+      user.tasks.map((task) => {
+        if (task) {
+          if (task.projectRef.toString() === projectRef.toString()) {
+            task = { task, user: user.name }
+            tasks.push(task)
+          }
         }
-      }
-    })
+      })
+    }
   })
 
   res.status(200).json(tasks)

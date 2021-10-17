@@ -31,7 +31,11 @@ const SubTasks = ({ history }) => {
     ) {
       history.push('/login')
     } else {
-      dispatch(getAllTasksforEvent(event._id))
+      if (userInfo.role === 'Production_Manager') {
+        dispatch(getAllTasksforEvent(event._id, 'Production_Department'))
+      } else if (userInfo.role === 'Services_Manager') {
+        dispatch(getAllTasksforEvent(event._id, 'Services_Department'))
+      }
     }
   }, [dispatch, history, userInfo])
 
@@ -92,7 +96,7 @@ const SubTasks = ({ history }) => {
                 <th>PRIORITY</th>
                 <th>ASSIGNED TO</th>
                 <th>STATUS</th>
-                <th>Review</th>
+                <th>REVIEW</th>
               </tr>
             </thead>
             <tbody>
@@ -122,9 +126,9 @@ const SubTasks = ({ history }) => {
                     <td>
                       <Link
                         to={{
-                          pathname: `events/subtasks/create`,
+                          pathname: `events/subtasks/review`,
                           state: {
-                            event: event,
+                            task: task,
                           },
                         }}
                       >

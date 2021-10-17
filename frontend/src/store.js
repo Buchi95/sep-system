@@ -9,6 +9,7 @@ import {
   dptUsersReducer,
   assignTaskReducer,
   getAllTasksReducer,
+  editTaskReducer,
 } from './redux/reducers/userReducers'
 
 // event reducers
@@ -42,6 +43,7 @@ const reducer = combineReducers({
   // assign task
   assignTask: assignTaskReducer,
   getAllTasks: getAllTasksReducer,
+  editTask: editTaskReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -63,6 +65,7 @@ const initialState = {
   dptUsers: { dpUsers: [] },
   assignTask: { message: {} },
   getAllTasks: { tasks: [] },
+  editTask: { message: {} },
 }
 
 const middleware = [thunk]
