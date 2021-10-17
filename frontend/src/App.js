@@ -24,6 +24,9 @@ import CreateSubTeamTasks from './screens/eventPlanning/CreateSubTeamTasks'
 import MyTasks from './screens/eventPlanning/MyTasks'
 import EditTask from './screens/eventPlanning/EditTask'
 import ReviewSubTask from './screens/eventPlanning/ReviewSubTask'
+// requests screen
+import FinancialRequest from './screens/resources/FinancialRequest'
+import RecruitmentRequestScreen from './screens/resources/RecruitmentRequest'
 
 const App = () => {
   return (
@@ -60,6 +63,12 @@ const App = () => {
           />
           <Route path='/tasks' component={MyTasks} exact />
           <Route path='/tasks/edit' component={EditTask} exact />
+          <Route path='/financial/request' component={FinancialRequest} exact />
+          <Route
+            path='/recruitment/request'
+            component={RecruitmentRequestScreen}
+            exact
+          />
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>

@@ -75,13 +75,13 @@ const HomeScreen = ({ history }) => {
                 </Link>
               </Row>
               <Row md={3}>
-                <Link className='btn btn-dark my-3' to='/'>
-                  New Resource Request
+                <Link className='btn btn-dark my-3' to='/recruitment/request'>
+                  Staffing Requests
                 </Link>
               </Row>
               <br />
               <Row md={3}>
-                <Link className='btn btn-dark my-3' to='/'>
+                <Link className='btn btn-dark my-3' to='/financial/request'>
                   Extra Budget Requests
                 </Link>
               </Row>

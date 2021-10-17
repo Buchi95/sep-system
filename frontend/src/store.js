@@ -25,7 +25,10 @@ import {
 } from './redux/reducers/eventFlowReducers'
 
 // client reducer
-import { getClientReducer } from './redux/reducers/clientReducers'
+import {
+  getClientReducer,
+  getAllClientsReducer,
+} from './redux/reducers/clientReducers'
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -33,7 +36,9 @@ const reducer = combineReducers({
   createEventRequest: createEventRequestReducer,
   getEventReqStatus: getEventRequestStatusReducer,
   updateEventRequestStatus: updateEventRequestStatusReducer,
+  // client
   getClient: getClientReducer,
+  getAllClients: getAllTasksReducer,
   // event creation
   createEvent: createEventReducer,
   getEveStatus: getEventStatusReducer,
@@ -58,7 +63,9 @@ const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
   createEventRequest: { eventRequestInfo: eventRequestInfoFromStorage },
   getEventReqStatus: { eventRequestInfoByStatus: [] },
+  // client
   getClient: { clientInfo: {} },
+  getAllClients: { allClients: [] },
   createEvent: { eventInfo: {} },
   getEveStatus: { eventInfoByStatus: [] },
   getEventById: { eventbyId: {} },
