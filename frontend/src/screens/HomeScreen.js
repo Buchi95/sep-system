@@ -18,7 +18,7 @@ const HomeScreen = ({ history }) => {
     <>
       <h1>Home</h1>
       <h4>{`${userInfo && userInfo.department.replaceAll('_', ' ')} - ${
-        userInfo && userInfo.subdepartment.length > 0
+        userInfo && userInfo.subdepartment && userInfo.subdepartment.length > 0
           ? userInfo.subdepartment.replaceAll('_', ' ')
           : ''
       }`}</h4>
@@ -104,7 +104,8 @@ const HomeScreen = ({ history }) => {
         )}
 
       {userInfo &&
-        userInfo.department === 'Production_Department' &&
+        (userInfo.department === 'Production_Department' ||
+          userInfo.department === 'Services_Department') &&
         userInfo.subdepartment.length > 0 && (
           <>
             <br />

@@ -23,6 +23,12 @@ MONGO_URI = your mongodb uri
 JWT_SECRET = 'abc123'
 ```
 
+Create another .env file in folder frontend/ and add the following
+
+```
+SKIP_PREFLIGHT_CHECK=true
+```
+
 ### Install Dependencies (frontend & backend)
 
 ```
