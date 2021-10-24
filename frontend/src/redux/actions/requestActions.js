@@ -13,6 +13,13 @@ import {
   GET_STAFFS_REQUEST,
   GET_STAFFS_SUCCESS,
   GET_STAFFS_FAIL,
+  // update
+  UPDATE_BUDGET_REQUEST,
+  UPDATE_BUDGET_SUCCESS,
+  UPDATE_BUDGET_FAIL,
+  UPDATE_STAFF_REQUEST,
+  UPDATE_STAFF_SUCCESS,
+  UPDATE_STAFF_FAIL,
 } from '../constants/requestConstants'
 
 import axios from 'axios'
@@ -184,3 +191,81 @@ export const getExtraStaffsRequest = () => async (dispatch, getState) => {
     })
   }
 }
+
+export const updateExtraStaffRequest =
+  (id, status) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: UPDATE_STAFF_REQUEST,
+      })
+
+      const {
+        userLogin: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.put(
+        `/api/request/staff`,
+        { id, status },
+        config
+      )
+
+      dispatch({
+        type: UPDATE_STAFF_SUCCESS,
+        payload: data,
+      })
+    } catch (error) {
+      dispatch({
+        type: UPDATE_STAFF_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }
+
+export const updateExtraBudgetRequest =
+  (id, status) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: UPDATE_BUDGET_REQUEST,
+      })
+
+      const {
+        userLogin: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.put(
+        `/api/request/budget`,
+        { id, status },
+        config
+      )
+
+      dispatch({
+        type: UPDATE_BUDGET_SUCCESS,
+        payload: data,
+      })
+    } catch (error) {
+      dispatch({
+        type: UPDATE_BUDGET_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }

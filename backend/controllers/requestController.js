@@ -74,12 +74,6 @@ const addResourceRequest = asyncHandler(async (req, res) => {
   }
 })
 
-const eventData = async (id) => {
-  const event = await NewEvent.findById(id)
-
-  return event
-}
-
 /*
  *   @desc   get all budget requests
  *   @route  GET /api/request/budget

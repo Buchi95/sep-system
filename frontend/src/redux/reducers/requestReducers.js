@@ -13,6 +13,13 @@ import {
   GET_STAFFS_REQUEST,
   GET_STAFFS_SUCCESS,
   GET_STAFFS_FAIL,
+  // update
+  UPDATE_BUDGET_REQUEST,
+  UPDATE_BUDGET_SUCCESS,
+  UPDATE_BUDGET_FAIL,
+  UPDATE_STAFF_REQUEST,
+  UPDATE_STAFF_SUCCESS,
+  UPDATE_STAFF_FAIL,
 } from '../constants/requestConstants'
 
 export const extraBudgetReducer = (state = {}, action) => {
@@ -61,6 +68,32 @@ export const getExtraStaffsReducer = (state = { allClients: [] }, action) => {
     case GET_STAFFS_SUCCESS:
       return { loading: false, staffs: action.payload }
     case GET_STAFFS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const updateExtraStaffRequestReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_STAFF_REQUEST:
+      return { loading: true }
+    case UPDATE_STAFF_SUCCESS:
+      return { loading: false, message: action.payload }
+    case UPDATE_STAFF_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const updateExtraBudgetRequestReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_BUDGET_REQUEST:
+      return { loading: true }
+    case UPDATE_BUDGET_SUCCESS:
+      return { loading: false, message: action.payload }
+    case UPDATE_BUDGET_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

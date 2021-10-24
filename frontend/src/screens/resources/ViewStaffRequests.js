@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 
-import { getExtraStaffsRequest } from '../../redux/actions/requestActions'
+import {
+  getExtraStaffsRequest,
+  updateExtraStaffRequest,
+} from '../../redux/actions/requestActions'
 
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
@@ -17,7 +20,8 @@ const ViewStaffRequests = ({ history }) => {
   const getExtraStaffs = useSelector((state) => state.getExtraStaffs)
   const { loading, error, staffs } = getExtraStaffs
 
-  console.log(staffs)
+  const updateStaff = useSelector((state) => state.updateStaff)
+  const { loading: lUpdate, error: eUpdate, message } = updateStaff
 
   useEffect(() => {
     if (!userInfo || userInfo.role !== 'Senior_HR_Manager') {
@@ -27,15 +31,26 @@ const ViewStaffRequests = ({ history }) => {
     }
   }, [dispatch, history, userInfo])
 
+  const handleUpdateStatus = (id) => {
+    if (window.confirm('Are you sure to create job ad request?')) {
+      dispatch(updateExtraStaffRequest(id, 2))
+    }
+
+    alert('Request Updated successfully')
+    history.push('/')
+  }
+
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>
-      {loading ? (
+      {loading || lUpdate ? (
         <Loader />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
+      ) : error || eUpdate ? (
+        <Message variant='danger'>
+          {error ? error : eUpdate ? eUpdate : 'Error!'}
+        </Message>
       ) : (
         <>
           <Row className='align-items-center'>
@@ -53,7 +68,7 @@ const ViewStaffRequests = ({ history }) => {
                 <th>REQUESTED BY</th>
                 <th>CREATED AT</th>
                 <th>STATUS</th>
-                <th>-</th>
+                <th>ACTION</th>
               </tr>
             </thead>
             <tbody>
@@ -69,15 +84,26 @@ const ViewStaffRequests = ({ history }) => {
                       {staff['request'].status === 1
                         ? 'Initiated'
                         : staff['request'].status === 2
-                        ? 'Closed'
+                        ? 'Resolved'
                         : 'Done'}
                     </td>
 
                     <td>
                       <>
-                        <Button variant='success' className='btn-sm'>
-                          Create Job Ad
-                        </Button>
+                        {staff['request'].status === 1 ? (
+                          <Button
+                            type='button'
+                            onClick={() =>
+                              handleUpdateStatus(staff['request']._id)
+                            }
+                            variant='success'
+                            className='btn-sm'
+                          >
+                            Create Job Ad
+                          </Button>
+                        ) : (
+                          'Done'
+                        )}
                       </>
                     </td>
                   </tr>
