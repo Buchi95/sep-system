@@ -47,6 +47,14 @@ npm run dev or yarn dev
 npm run server or yarn server
 ```
 
+### Tests
+
+```
+# To run all backend tests
+
+npm start test or yarn test
+```
+
 # AUTHOR
 
 - LinkedIn: [@abdullah1428](https://www.linkedin.com/in/abdullahcse/)
