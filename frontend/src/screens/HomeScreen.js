@@ -42,12 +42,6 @@ const HomeScreen = ({ history }) => {
               Event Requests Review
             </Link>
           </Row>
-          <br />
-          <Row md={3}>
-            <Link className='btn btn-dark my-3' to='/'>
-              Client Records
-            </Link>
-          </Row>
         </>
       )}
 
