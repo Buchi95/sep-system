@@ -42,6 +42,12 @@ const HomeScreen = ({ history }) => {
               Event Requests Review
             </Link>
           </Row>
+          <br />
+          <Row md={3}>
+            <Link className='btn btn-dark my-3' to='/clients'>
+              Client Records
+            </Link>
+          </Row>
         </>
       )}
 
@@ -58,6 +64,12 @@ const HomeScreen = ({ history }) => {
               Financial Requests
             </Link>
           </Row>
+
+          <Row md={3}>
+            <Link className='btn btn-dark my-3' to='/clients'>
+              Client Records
+            </Link>
+          </Row>
         </>
       )}
 
@@ -71,10 +83,33 @@ const HomeScreen = ({ history }) => {
         </>
       )}
 
+      {userInfo && userInfo.role === 'Marketing_Officer' && (
+        <>
+          <br />
+          <Row md={3}>
+            <Link className='btn btn-dark my-3' to='/clients'>
+              Client Records
+            </Link>
+          </Row>
+        </>
+      )}
+
       {userInfo && userInfo.role === 'Administration_Manager' && (
-        <Link className='btn btn-dark my-3' to='/event/requests/3'>
-          Event Requests Review
-        </Link>
+        <>
+          <br />
+          <Row md={3}>
+            <Link className='btn btn-dark my-3' to='/event/requests/3'>
+              Event Requests Review
+            </Link>
+          </Row>
+
+          <br />
+          <Row md={3}>
+            <Link className='btn btn-dark my-3' to='/clients'>
+              Client Records
+            </Link>
+          </Row>
+        </>
       )}
 
       {userInfo &&
@@ -90,13 +125,31 @@ const HomeScreen = ({ history }) => {
               </Row>
               <Row md={3}>
                 <Link className='btn btn-dark my-3' to='/recruitment/request'>
-                  Staffing Requests
+                  Create Staffing Requests
                 </Link>
               </Row>
               <br />
               <Row md={3}>
                 <Link className='btn btn-dark my-3' to='/financial/request'>
-                  Extra Budget Requests
+                  Create Extra Budget Requests
+                </Link>
+              </Row>
+              <br />
+              <Row md={3}>
+                <Link
+                  className='btn btn-dark my-3'
+                  to='/financial/requests/view'
+                >
+                  View Extra Budget Requests
+                </Link>
+              </Row>
+              <br />
+              <Row md={3}>
+                <Link
+                  className='btn btn-dark my-3'
+                  to='/recruitment/requests/view'
+                >
+                  View Extra Resource Requests
                 </Link>
               </Row>
             </Row>

@@ -56,7 +56,7 @@ const Events = ({ history }) => {
                 <th>Description</th>
                 <th>FROM</th>
                 <th>TO</th>
-                <th>STATUS</th>
+                {/* <th>STATUS</th> */}
                 <th>DETAIL VIEW</th>
                 <th>SUB TASKS</th>
               </tr>
@@ -69,7 +69,7 @@ const Events = ({ history }) => {
                     <td>{event.description}</td>
                     <td>{event.from.substring(0, 10)}</td>
                     <td>{event.to.substring(0, 10)}</td>
-                    <td>
+                    {/* <td>
                       {event.eventStatus === 1
                         ? 'Initiated'
                         : event.eventStatus === 2
@@ -81,7 +81,7 @@ const Events = ({ history }) => {
                         : event.eventStatus === 5
                         ? 'Under Review by FM'
                         : 'Closed'}
-                    </td>
+                    </td> */}
 
                     <td>
                       <Link

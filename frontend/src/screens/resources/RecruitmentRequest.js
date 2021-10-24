@@ -233,7 +233,7 @@ const RecruitmentRequestScreen = ({ history }) => {
                       style={{ marginTop: 10 }}
                       className='btn btn-dark ml-auto'
                     >
-                      Submit Financial Request
+                      Submit Recruitment Request
                     </Button>
                   </div>
                 </Form>

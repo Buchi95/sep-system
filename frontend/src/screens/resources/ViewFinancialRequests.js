@@ -116,7 +116,7 @@ const ViewFinancialRequests = ({ history }) => {
                       ) : budget['request'].status === 2 ? (
                         'Approved'
                       ) : (
-                        'rejected'
+                        'Rejected'
                       )}
                     </td>
                   </tr>

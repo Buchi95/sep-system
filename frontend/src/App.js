@@ -29,6 +29,11 @@ import FinancialRequest from './screens/resources/FinancialRequest'
 import RecruitmentRequestScreen from './screens/resources/RecruitmentRequest'
 import ViewFinancialRequests from './screens/resources/ViewFinancialRequests'
 import ViewStaffRequests from './screens/resources/ViewStaffRequests'
+// all clients screen
+import Clients from './screens/reports/Clients'
+// view requests  managers
+import ViewFinancialRequestsManagers from './screens/resources/ViewFinancialRequestsManagers'
+import ViewStaffRequestsManagers from './screens/resources/ViewStaffRequestsManagers'
 
 const App = () => {
   return (
@@ -67,8 +72,18 @@ const App = () => {
           <Route path='/tasks/edit' component={EditTask} exact />
           <Route path='/financial/request' component={FinancialRequest} exact />
           <Route
+            path='/financial/requests/view'
+            component={ViewFinancialRequestsManagers}
+            exact
+          />
+          <Route
             path='/recruitment/request'
             component={RecruitmentRequestScreen}
+            exact
+          />
+          <Route
+            path='/recruitment/requests/view'
+            component={ViewStaffRequestsManagers}
             exact
           />
           <Route
@@ -77,6 +92,7 @@ const App = () => {
             exact
           />
           <Route path='/requests/staff' component={ViewStaffRequests} exact />
+          <Route path='/clients' component={Clients} exact />
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>

@@ -55,7 +55,7 @@ const ViewStaffRequests = ({ history }) => {
         <>
           <Row className='align-items-center'>
             <Col>
-              <h1>All Events</h1>
+              <h1>All Resources Requests</h1>
             </Col>
           </Row>
 
